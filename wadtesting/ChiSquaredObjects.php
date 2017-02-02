@@ -1,16 +1,7 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- * Description of ChiSquaredObjects
- *
- * @author pjb12147
- */
+//new line
 class ChiSquaredObjects {
     var $mean =0;
     var $sumsOfSquares;
