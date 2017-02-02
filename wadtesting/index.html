@@ -1,0 +1,26 @@
+<html>
+    <body>
+        <div id="authorize-div" style="display: none">
+            <span>Authorize access to Google Sheets API</span>
+            <!--Button for the user to click to initiate auth sequence -->
+            <button id="authorize-button" onclick="handleAuthClick(event)">
+                Authorize
+            </button>
+        </div>
+        <pre id="output"></pre>
+         <p> **Please remove all empty COLUMNS FROM THE SPREADSHEET</p>
+        <p> please enter the spreadsheet ID<input type="text" id="userInput" value="1o7__VYtZ6bxuNmB-Pmd8QUvhBUfLeBBHtheaTQO6wLM"></p>
+        <p>please enter the last column letter i.e "A OR AA<input type="text" id="userLastColumnLetters" value="C"></p>
+        <p>please enter the name of the sheet<input type="text" id="sheetName" value="Test"></p>
+
+        <script type="text/javascript" src="GoogleConnector.js"></script>
+
+        <script src="https://apis.google.com/js/client.js?onload=checkAuth">
+        </script>
+        <script src="https://code.jquery.com/jquery.js"></script>
+
+        <div id="result"></div>
+        <input type="button" id ="button" value="Click to run an anova test" onclick="checkAuth1();">
+    </body>
+
+</html>
