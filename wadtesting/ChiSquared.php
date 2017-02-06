@@ -47,6 +47,7 @@ $obj = new stdClass();
 $obj->label="object";
 $obj->data = array(
     array('dfBetween',$dfBetween),
+//    array('dfBetween',35),
     array('dfWithin',$dfWithin),
     array('fRatio',$fRatio),
 );

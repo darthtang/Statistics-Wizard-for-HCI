@@ -155,8 +155,53 @@ function lookUpFtable(acrossIn, lengthIn, ratioIn) {
     console.log(acrossIn);
     console.log(lengthIn);
     console.log(ratioIn);
+    
+if(acrossIn<=10){
+    acrossIn = acrossIn;
+}
+if((acrossIn>10)&&(acrossIn<=12)){
+    acrossIn = 11;
+}
+if((acrossIn>12)&&(acrossIn<=15)){
+    acrossIn = 12;
+}
+if((acrossIn>15)&&(acrossIn<=20)){
+    acrossIn = 13;
+}
+if((acrossIn>20)&&(acrossIn<=24)){
+    acrossIn = 14;
+}
+if((acrossIn>24)&&(acrossIn<=30)){
+    acrossIn = 15;
+}
+if((acrossIn>30)&&(acrossIn<=40)){
+    acrossIn = 16;
+}
+if((acrossIn>40)&&(acrossIn<=60)){
+    acrossIn = 17;
+}
+if((acrossIn>60)&&(acrossIn<=120)){
+    acrossIn = 18;
+}
+if(acrossIn>120){
+    acrossIn = 19;
+}
 
-
+if(lengthIn<=10){
+    lengthIn = lengthIn;
+}
+if((lengthIn>30)&&(lengthIn<=40)){
+    lengthIn = 31;
+}
+if((lengthIn>40)&&(lengthIn<=60)){
+    lengthIn = 32;
+}
+if((lengthIn>60)&&(lengthIn<=120)){
+    lengthIn = 33;
+}
+if((lengthIn>120)){
+    lengthIn = 34;
+}
     tableRange = tableRange + (String.fromCharCode(65 + acrossIn)) + (lengthIn + 1);
 
     console.log(tableRange);
@@ -168,10 +213,10 @@ function lookUpFtable(acrossIn, lengthIn, ratioIn) {
     }).then(function (response) {
         var range1 = response.result;
         var criticalValue = (range1.values[0][0]);
-        if (ratioIn>criticalValue){
-            console.log('there is a sig diff in the data');
+        if (ratioIn>=criticalValue){
+            console.log('there is a sig diff in the data. F = ' +ratioIn);
         }else{
-            console.log('there is NO sig diff in the data');
+            console.log('there is NO sig diff in the data. F = ' +ratioIn);
         }
 
     });
