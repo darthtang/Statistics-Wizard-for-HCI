@@ -8,6 +8,10 @@ class ChiSquaredObjects {
     var $inputIntoClass;
     var $totalOfArray =0;
     var $totalsquared=0;
+    var $arrayOfItems = 0;
+    var $ssArray = 0;
+    var $stack = array("orange", "banana");
+    
     
     function __construct($inputIntoClass) {
         $this->inputIntoClass = substr($inputIntoClass, 1);
@@ -18,6 +22,7 @@ class ChiSquaredObjects {
         
         $arrayOfItems = explode("_",$input);
         $ssArray = explode("_",$input);
+        $this->stack = &$arrayOfItems;
         //print_r(array_values($arrayOfItems));
         $this->totalOfArray = array_sum($arrayOfItems);
         $this->mean = (array_sum($arrayOfItems))/  (sizeof($arrayOfItems));
