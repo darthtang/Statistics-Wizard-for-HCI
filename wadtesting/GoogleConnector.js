@@ -25,7 +25,7 @@ function checkAuth1() {
                 'client_id': CLIENT_ID,
                 'scope': SCOPES.join(' '),
                 'immediate': true
-            }, handleAuthResult);
+            }, GoogleConnectorhandleAuthResult);
 }
 
 /**
@@ -33,12 +33,12 @@ function checkAuth1() {
  *
  * @param {Object} authResult Authorization result.
  */
-function handleAuthResult(authResult) {
+function GoogleConnectorhandleAuthResult(authResult) {
     var authorizeDiv = document.getElementById('authorize-div');
     if (authResult && !authResult.error) {
         // Hide auth UI, then load client library.
         authorizeDiv.style.display = 'none';
-        loadSheetsApi();
+        GoogleConnectorloadSheetsApi();
 
     } else {
         // Show auth UI, allowing the user to initiate authorization by
@@ -55,16 +55,16 @@ function handleAuthResult(authResult) {
 function handleAuthClick(event) {
     gapi.auth.authorize(
             {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
-            handleAuthResult);
+            GoogleConnectorhandleAuthResult);
     return false;
 }
 
 /**
  * Load Sheets API client library.
  */
-function loadSheetsApi() {
+function GoogleConnectorloadSheetsApi() {
 
-    gapi.client.load(discoveryUrl).then(listMajors123);
+    gapi.client.load(discoveryUrl).then(GoogleConnectorlistMajors123);
 
 }
 
@@ -72,19 +72,19 @@ function loadSheetsApi() {
  * Print the names and majors of students in a sample spreadsheet:
  * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  */
-function listMajors123() {
+function GoogleConnectorlistMajors123() {
 
     gapi.client.sheets.spreadsheets.get({
         spreadsheetId: sheetID,
     }).then(function (response) {
         var object = (response.result);
         numberOfColumns123 = (object.sheets[0].properties.gridProperties.columnCount);
-        gapi.client.load(discoveryUrl).then(listMajors(numberOfColumns123));
+        gapi.client.load(discoveryUrl).then(GoogleConnectorlistMajors(numberOfColumns123));
     });
 
 }
 
-function listMajors(input) {
+function GoogleConnectorlistMajors(input) {
 
     var lastLetterLower = (document.getElementById("userLastColumnLetters").value);
     var lastLetters = lastLetterLower.toUpperCase();
@@ -110,7 +110,7 @@ function listMajors(input) {
                 }
                 if (x === (input - 1)) {
                     console.log(stringToPass);
-                    Anova123(stringToPass, range.values.length, input);
+                    GoogleConnectorAnova123(stringToPass, range.values.length, input);
                 }
             }
         } else {
@@ -125,13 +125,13 @@ function listMajors(input) {
 }
 
 
-function appendPre(message) {
+function GoogleConnectorappendPre(message) {
     var pre = document.getElementById('output');
     var textContent = document.createTextNode(message + '\n');
     pre.appendChild(textContent);
 }
 
-function Anova123(input, length, col) {
+function GoogleConnectorAnova123(input, length, col) {
 
 
     $.post('ChiSquared.php', {in1: input, in2: length, in3: col},
@@ -140,19 +140,20 @@ function Anova123(input, length, col) {
                 var json = data;
                 obj = JSON.parse(json);
                 obj = JSON && JSON.parse(json) || $.parseJSON(json);
+                console.log(obj);
                 var across = (obj.data[0][1]);
                 var down = (obj.data[1][1]);
                 var ratio = (obj.data[2][1]);
 
-                gapi.client.load(discoveryUrl).then(lookUpFtable(across,down,ratio));
+                gapi.client.load(discoveryUrl).then(GoogleConnectorlookUpFtable(across,down,ratio));
 
             });
 
 }
 
-function lookUpFtable(acrossIn, lengthIn, ratioIn) {
+function GoogleConnectorlookUpFtable(acrossIn, lengthIn, ratioIn) {
 
-    console.log(acrossIn);
+    console.log(acrossIn + "sdgsdf");
     console.log(lengthIn);
     console.log(ratioIn);
     
