@@ -153,7 +153,7 @@ function GoogleConnectorAnova123(input, length, col) {
 
 function GoogleConnectorlookUpFtable(acrossIn, lengthIn, ratioIn) {
 
-    console.log(acrossIn + "sdgsdf");
+    console.log(acrossIn);
     console.log(lengthIn);
     console.log(ratioIn);
     
