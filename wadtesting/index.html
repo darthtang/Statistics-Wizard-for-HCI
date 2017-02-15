@@ -17,6 +17,8 @@
             <h2>Welcome to the Statistics wizard</h2>
             <p>Please select which type of data you have used</p>
         </div>
+                                                        <button type="button" class="btn btn-info" onclick="pairedTtestRun();">Click to run a Paired T test</button>
+
         <div class="container">
             <h2>Please select input the google sheet information</h2>
             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#input">Click to find out a meaning</button>
@@ -24,8 +26,8 @@
                 <pre id="output"></pre>
                 <p> **Please remove all empty COLUMNS FROM THE SPREADSHEET</p>
                 <p> please enter the spreadsheet ID<input type="text" id="userInput" value="1o7__VYtZ6bxuNmB-Pmd8QUvhBUfLeBBHtheaTQO6wLM"></p>
-                <p>please enter the last column letter i.e "A OR AA<input type="text" id="userLastColumnLetters" value="C"></p>
-                <p>please enter the name of the sheet<input type="text" id="sheetName" value="Test"></p>
+                <p>please enter the last column letter i.e "A OR AA<input type="text" id="userLastColumnLetters" value="B"></p>
+                <p>please enter the name of the sheet<input type="text" id="sheetName" value="Sheet3"></p>
             </div>
             <div class="container">
                 <h2>Frequency data(Counting)</h2>
@@ -96,13 +98,17 @@
                                         </div>
                                     </div>
                                     <div class="container">
-                                        <h2>correlated</h2>
+                                        <h2>correlated - paired T test</h2>
 
                                         <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#correlatedsamp">Click to find out a meaning</button>
                                         <div id="correlatedsamp" class="collapse">
                                             Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
                                             non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
                                             follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
+                                            <p>
+                                                <button type="button" class="btn btn-info" onclick="pairedTtestRun();">Click to run a Paired T test</button>
+                                                <!--                                    <button type="button" class="btn btn-info" onclick="checkAuth1();">Click to run a One way Anova</button>-->
+
                                         </div>
                                     </div>
                                 </div>
@@ -182,8 +188,8 @@
                                     non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
                                     follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
                                     <p>
-                                    <button type="button" class="btn btn-info" onclick="checkAuth1();">Click to run a One way Anova</button>
-                                    <!--<button type="button" class="btn btn-info" onclick="repeatedAnovaRun();">Click to run a One way Anova</button>-->
+                                        <button type="button" class="btn btn-info" onclick="checkAuth1();">Click to run a One way Anova</button>
+                                        <!--<button type="button" class="btn btn-info" onclick="repeatedAnovaRun();">Click to run a One way Anova</button>-->
 
 
                                 </div>
@@ -195,11 +201,11 @@
                                     Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
                                     non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
                                     follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
-                                    
+
                                     <p>
-                                    <button type="button" class="btn btn-info" onclick="repeatedAnovaRun();">Click to run a One way Anova</button>
-<!--                                    <button type="button" class="btn btn-info" onclick="checkAuth1();">Click to run a One way Anova</button>-->
-                                    
+                                        <button type="button" class="btn btn-info" onclick="repeatedAnovaRun();">Click to run a One way Anova</button>
+                                        <!--                                    <button type="button" class="btn btn-info" onclick="checkAuth1();">Click to run a One way Anova</button>-->
+
                                 </div>
                             </div>
                         </div>
@@ -208,6 +214,7 @@
             </div>
             <script type="text/javascript" src="GoogleConnector.js"></script>
             <script type="text/javascript" src="repeatedAnova.js"></script>
+            <script type="text/javascript" src="pairedTtest.js"></script>
             <script src="https://apis.google.com/js/client.js?onload=checkAuth">
             </script>
             <script src="https://code.jquery.com/jquery.js"></script>
