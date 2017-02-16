@@ -78,8 +78,22 @@ function GoogleConnectorlistMajors123() {
         spreadsheetId: sheetID,
     }).then(function (response) {
         var object = (response.result);
-        numberOfColumns123 = (object.sheets[0].properties.gridProperties.columnCount);
-        gapi.client.load(discoveryUrl).then(GoogleConnectorlistMajors(numberOfColumns123));
+
+        console.log(object);
+        console.log(object.sheets[1].properties.title);
+        
+        var target = (document.getElementById("sheetName").value);
+        
+        for (x = 0; x < object.sheets.length; x++) {
+            if (target === object.sheets[x].properties.title){
+                console.log('sucess');
+                        numberOfColumns123 = (object.sheets[x].properties.gridProperties.columnCount);
+                        console.log(numberOfColumns123);
+                        gapi.client.load(discoveryUrl).then(GoogleConnectorlistMajors(numberOfColumns123));
+            }else{
+                console.log('nothing yet');
+            }
+        }
     });
 
 }
