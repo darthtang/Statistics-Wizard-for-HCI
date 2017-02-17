@@ -74,27 +74,27 @@ function loadSheetsApi() {
  */
 function listMajors123() {
 
-//    gapi.client.sheets.spreadsheets.get({
-//        spreadsheetId: sheetID,
-//    }).then(function (response) {
-//        var object = (response.result);
-//
-//        console.log(object);
-//        console.log(object.sheets[1].properties.title);
-//
-//        var target = (document.getElementById("sheetName").value);
-//
-//        for (x = 0; x < object.sheets.length; x++) {
-//            if (target === object.sheets[x].properties.title) {
-//                console.log('sucess');
-//                numberOfColumns123 = (object.sheets[x].properties.gridProperties.columnCount);
-//                console.log(numberOfColumns123);
-//                gapi.client.load(discoveryUrl).then(listMajors(numberOfColumns123));
-//            } else {
-//                console.log('nothing yet');
-//            }
-//        }
-//    });
+    gapi.client.sheets.spreadsheets.get({
+        spreadsheetId: sheetID,
+    }).then(function (response) {
+        var object = (response.result);
+
+        console.log(object);
+        console.log(object.sheets[1].properties.title);
+
+        var target = (document.getElementById("sheetName").value);
+
+        for (x = 0; x < object.sheets.length; x++) {
+            if (target === object.sheets[x].properties.title) {
+                console.log('sucess');
+                numberOfColumns123 = (object.sheets[x].properties.gridProperties.columnCount);
+                console.log(numberOfColumns123);
+                gapi.client.load(discoveryUrl).then(listMajors(numberOfColumns123));
+            } else {
+                console.log('nothing yet');
+            }
+        }
+    });
 
     console.log('asdfsdfsdfsdfsdf');
     gapi.client.sheets.spreadsheets.batchUpdate({
