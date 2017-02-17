@@ -2,7 +2,7 @@
 // Developer Console, https://console.developers.google.com
 var CLIENT_ID = '281296927473-dru253jk83in453051u1t97f0ckdktom.apps.googleusercontent.com';
 
-var SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
+var SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
 
 var sheetID = "YO";
 

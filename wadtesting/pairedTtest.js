@@ -2,7 +2,7 @@
 // Developer Console, https://console.developers.google.com
 var CLIENT_ID = '281296927473-dru253jk83in453051u1t97f0ckdktom.apps.googleusercontent.com';
 
-var SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
+var SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
 
 var sheetID = "YO";
 
@@ -54,7 +54,7 @@ function pairedTtesthandleAuthResult(authResult) {
  *
  * @param {Event} event Button click event.
  */
-function handleAuthClick(event) {
+function pairedTtesthandleAuthClick(event) {
     gapi.auth.authorize(
             {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
             pairedTtesthandleAuthResult);
@@ -116,11 +116,12 @@ function pairedTtestAnova123(input) {
             function (data)
             {
                 var json = data;
-                console.log(data);
+              console.log(data);
                 obj = JSON.parse(json);
                 obj = JSON && JSON.parse(json) || $.parseJSON(json);
 
                    console.log(obj.data[0][1]);
+                   console.log('sdfsdfsdf');
 
                // gapi.client.load(discoveryUrl).then(lookUpFtable(across,down,ratio));
 

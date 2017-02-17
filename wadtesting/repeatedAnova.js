@@ -2,7 +2,7 @@
 // Developer Console, https://console.developers.google.com
 var CLIENT_ID = '281296927473-dru253jk83in453051u1t97f0ckdktom.apps.googleusercontent.com';
 
-var SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"];
+var SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
 
 var sheetID = "YO";
 
@@ -74,26 +74,68 @@ function loadSheetsApi() {
  */
 function listMajors123() {
 
-    gapi.client.sheets.spreadsheets.get({
-        spreadsheetId: sheetID,
-    }).then(function (response) {
-        var object = (response.result);
+//    gapi.client.sheets.spreadsheets.get({
+//        spreadsheetId: sheetID,
+//    }).then(function (response) {
+//        var object = (response.result);
+//
+//        console.log(object);
+//        console.log(object.sheets[1].properties.title);
+//
+//        var target = (document.getElementById("sheetName").value);
+//
+//        for (x = 0; x < object.sheets.length; x++) {
+//            if (target === object.sheets[x].properties.title) {
+//                console.log('sucess');
+//                numberOfColumns123 = (object.sheets[x].properties.gridProperties.columnCount);
+//                console.log(numberOfColumns123);
+//                gapi.client.load(discoveryUrl).then(listMajors(numberOfColumns123));
+//            } else {
+//                console.log('nothing yet');
+//            }
+//        }
+//    });
 
-        console.log(object);
-        console.log(object.sheets[1].properties.title);
-        
-        var target = (document.getElementById("sheetName").value);
-        
-        for (x = 0; x < object.sheets.length; x++) {
-            if (target === object.sheets[x].properties.title){
-                console.log('sucess');
-                        numberOfColumns123 = (object.sheets[x].properties.gridProperties.columnCount);
-                        console.log(numberOfColumns123);
-                        gapi.client.load(discoveryUrl).then(listMajors(numberOfColumns123));
-            }else{
-                console.log('nothing yet');
+    console.log('asdfsdfsdfsdfsdf');
+    gapi.client.sheets.spreadsheets.batchUpdate({
+        spreadsheetId: sheetID,
+        requests: [
+            {
+                addSheet: {
+                    properties: {
+                        title: "Deposits",
+                        gridProperties: {
+                            rowCount: 20,
+                            columnCount: 12
+                        },
+                        tabColor: {
+                            red: 1.0,
+                            green: 0.3,
+                            blue: 0.4
+                        }
+                    }
+                }
             }
-        }
+        ]
+
+    }).then(function (response1234) {
+        console.log(response1234);
+    });
+
+    gapi.client.sheets.spreadsheets.values.update({
+        spreadsheetId: sheetID,
+         range: "Deposits!A1:D5",
+        valueInputOption: "USER_ENTERED",
+        majorDimension: "ROWS",
+        values: [
+            ["Spicy", "Dolly", "Spicy", "Ship Date"],
+            ["Wheel", "$20.50", "4", "3/1/2016"],
+            ["Door", "$15", "2", "3/15/2016"],
+            ["Engine", "$100", "1", "30/20/2016"],
+            ["Totals", "=SUM(B2:B4)", "=SUM(C2:C4)", "=MAX(D2:D4)"]
+        ],
+    }).then(function (response1234) {
+        console.log(response1234);
     });
 
 }
