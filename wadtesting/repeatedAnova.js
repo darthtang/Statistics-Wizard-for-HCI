@@ -78,12 +78,7 @@ function listMajors123() {
         spreadsheetId: sheetID,
     }).then(function (response) {
         var object = (response.result);
-
-        console.log(object);
-        console.log(object.sheets[1].properties.title);
-
         var target = (document.getElementById("sheetName").value);
-
         for (x = 0; x < object.sheets.length; x++) {
             if (target === object.sheets[x].properties.title) {
                 console.log('sucess');
@@ -95,6 +90,29 @@ function listMajors123() {
             }
         }
     });
+
+}
+function pushToSheet(chunkinput) {
+    console.log('look below me');
+    console.log(chunkinput);
+    gapi.client.sheets.spreadsheets.values.update({
+        spreadsheetId: sheetID,
+        range: "Deposits!A1:D5",
+        valueInputOption: "USER_ENTERED",
+        majorDimension: "ROWS",
+        values: [
+            [chunkinput.data[0][0], chunkinput.data[0][1], "Spicy", "Ship Date"],
+            [chunkinput.data[1][0], chunkinput.data[1][1], "4", "3/1/2016"],
+            [chunkinput.data[2][0], chunkinput.data[2][1], "2", "3/15/2016"],
+            ["Engine", "$100", "1", "30/20/2016"],
+            ["Totals", "=SUM(B2:B4)", "=SUM(C2:C4)", "=MAX(D2:D4)"]
+        ],
+    }).then(function (response1234) {
+        console.log(response1234);
+    });
+}
+
+function listMajors(input) {
 
     console.log('asdfsdfsdfsdfsdf');
     gapi.client.sheets.spreadsheets.batchUpdate({
@@ -122,25 +140,6 @@ function listMajors123() {
         console.log(response1234);
     });
 
-    gapi.client.sheets.spreadsheets.values.update({
-        spreadsheetId: sheetID,
-         range: "Deposits!A1:D5",
-        valueInputOption: "USER_ENTERED",
-        majorDimension: "ROWS",
-        values: [
-            ["Spicy", "Dolly", "Spicy", "Ship Date"],
-            ["Wheel", "$20.50", "4", "3/1/2016"],
-            ["Door", "$15", "2", "3/15/2016"],
-            ["Engine", "$100", "1", "30/20/2016"],
-            ["Totals", "=SUM(B2:B4)", "=SUM(C2:C4)", "=MAX(D2:D4)"]
-        ],
-    }).then(function (response1234) {
-        console.log(response1234);
-    });
-
-}
-
-function listMajors(input) {
 
     var lastLetterLower = (document.getElementById("userLastColumnLetters").value);
     var lastLetters = lastLetterLower.toUpperCase();
@@ -177,8 +176,6 @@ function listMajors(input) {
         appendPre('Error: ' + response.result.error.message);
     });
 
-
-
 }
 
 
@@ -200,13 +197,13 @@ function Anova123(input, length, col) {
                 var down = (obj.data[1][1]);
                 var ratio = (obj.data[2][1]);
 
-                gapi.client.load(discoveryUrl).then(lookUpFtable(across, down, ratio));
+                gapi.client.load(discoveryUrl).then(lookUpFtable(across, down, ratio, obj));
 
             });
 
 }
 
-function lookUpFtable(acrossIn, lengthIn, ratioIn) {
+function lookUpFtable(acrossIn, lengthIn, ratioIn, chunk) {
 
     console.log(acrossIn);
     console.log(lengthIn);
@@ -273,9 +270,21 @@ function lookUpFtable(acrossIn, lengthIn, ratioIn) {
             console.log('there is a sig diff in the data. F = ' + ratioIn);
 
             console.log('crit is: ' + criticalValue);
+
+            var delayMillis = 2000;
+            setTimeout(function () {
+                pushToSheet(chunk);
+            }, delayMillis);
+
+
         } else {
             console.log('there is NO sig diff in the data. F = ' + ratioIn);
             console.log('crit is: ' + criticalValue);
+
+            var delayMillis = 2000;
+            setTimeout(function () {
+                pushToSheet(chunk);
+            }, delayMillis);
         }
 
     });
