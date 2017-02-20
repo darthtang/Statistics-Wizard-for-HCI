@@ -81,16 +81,16 @@ function GoogleConnectorlistMajors123() {
 
         console.log(object);
         console.log(object.sheets[1].properties.title);
-        
+
         var target = (document.getElementById("sheetName").value);
-        
+
         for (x = 0; x < object.sheets.length; x++) {
-            if (target === object.sheets[x].properties.title){
+            if (target === object.sheets[x].properties.title) {
                 console.log('sucess');
-                        numberOfColumns123 = (object.sheets[x].properties.gridProperties.columnCount);
-                        console.log(numberOfColumns123);
-                        gapi.client.load(discoveryUrl).then(GoogleConnectorlistMajors(numberOfColumns123));
-            }else{
+                numberOfColumns123 = (object.sheets[x].properties.gridProperties.columnCount);
+                console.log(numberOfColumns123);
+                gapi.client.load(discoveryUrl).then(GoogleConnectorlistMajors(numberOfColumns123));
+            } else {
                 console.log('nothing yet');
             }
         }
@@ -98,7 +98,54 @@ function GoogleConnectorlistMajors123() {
 
 }
 
+function GoogleConnectorpushToSheet(chunkinput) {
+    console.log('look below me');
+    console.log(chunkinput);
+    gapi.client.sheets.spreadsheets.values.update({
+        spreadsheetId: sheetID,
+        range: "Deposits!A1:D5",
+        valueInputOption: "USER_ENTERED",
+        majorDimension: "ROWS",
+        values: [
+            [chunkinput.data[0][0], chunkinput.data[0][1], "Spicy", "Ship Date"],
+            [chunkinput.data[1][0], chunkinput.data[1][1], "4", "3/1/2016"],
+            [chunkinput.data[2][0], chunkinput.data[2][1], "2", "3/15/2016"],
+            ["Engine", "$100", "1", "30/20/2016"],
+            ["Totals", "=SUM(B2:B4)", "=SUM(C2:C4)", "=MAX(D2:D4)"]
+        ],
+    }).then(function (response1234) {
+        console.log(response1234);
+    });
+}
+
+
 function GoogleConnectorlistMajors(input) {
+    
+    console.log('asdfsdfsdfsdfsdf');
+    gapi.client.sheets.spreadsheets.batchUpdate({
+        spreadsheetId: sheetID,
+        requests: [
+            {
+                addSheet: {
+                    properties: {
+                        title: "Deposits",
+                        gridProperties: {
+                            rowCount: 20,
+                            columnCount: 12
+                        },
+                        tabColor: {
+                            red: 1.0,
+                            green: 0.3,
+                            blue: 0.4
+                        }
+                    }
+                }
+            }
+        ]
+
+    }).then(function (response1234) {
+        console.log(response1234);
+    });
 
     var lastLetterLower = (document.getElementById("userLastColumnLetters").value);
     var lastLetters = lastLetterLower.toUpperCase();
@@ -159,64 +206,64 @@ function GoogleConnectorAnova123(input, length, col) {
                 var down = (obj.data[1][1]);
                 var ratio = (obj.data[2][1]);
 
-                gapi.client.load(discoveryUrl).then(GoogleConnectorlookUpFtable(across,down,ratio));
+                gapi.client.load(discoveryUrl).then(GoogleConnectorlookUpFtable(across, down, ratio,obj));
 
             });
 
 }
 
-function GoogleConnectorlookUpFtable(acrossIn, lengthIn, ratioIn) {
+function GoogleConnectorlookUpFtable(acrossIn, lengthIn, ratioIn,chunk) {
 
     console.log(acrossIn);
     console.log(lengthIn);
     console.log(ratioIn);
-    
-if(acrossIn<=10){
-    acrossIn = acrossIn;
-}
-if((acrossIn>10)&&(acrossIn<=12)){
-    acrossIn = 11;
-}
-if((acrossIn>12)&&(acrossIn<=15)){
-    acrossIn = 12;
-}
-if((acrossIn>15)&&(acrossIn<=20)){
-    acrossIn = 13;
-}
-if((acrossIn>20)&&(acrossIn<=24)){
-    acrossIn = 14;
-}
-if((acrossIn>24)&&(acrossIn<=30)){
-    acrossIn = 15;
-}
-if((acrossIn>30)&&(acrossIn<=40)){
-    acrossIn = 16;
-}
-if((acrossIn>40)&&(acrossIn<=60)){
-    acrossIn = 17;
-}
-if((acrossIn>60)&&(acrossIn<=120)){
-    acrossIn = 18;
-}
-if(acrossIn>120){
-    acrossIn = 19;
-}
 
-if(lengthIn<=10){
-    lengthIn = lengthIn;
-}
-if((lengthIn>30)&&(lengthIn<=40)){
-    lengthIn = 31;
-}
-if((lengthIn>40)&&(lengthIn<=60)){
-    lengthIn = 32;
-}
-if((lengthIn>60)&&(lengthIn<=120)){
-    lengthIn = 33;
-}
-if((lengthIn>120)){
-    lengthIn = 34;
-}
+    if (acrossIn <= 10) {
+        acrossIn = acrossIn;
+    }
+    if ((acrossIn > 10) && (acrossIn <= 12)) {
+        acrossIn = 11;
+    }
+    if ((acrossIn > 12) && (acrossIn <= 15)) {
+        acrossIn = 12;
+    }
+    if ((acrossIn > 15) && (acrossIn <= 20)) {
+        acrossIn = 13;
+    }
+    if ((acrossIn > 20) && (acrossIn <= 24)) {
+        acrossIn = 14;
+    }
+    if ((acrossIn > 24) && (acrossIn <= 30)) {
+        acrossIn = 15;
+    }
+    if ((acrossIn > 30) && (acrossIn <= 40)) {
+        acrossIn = 16;
+    }
+    if ((acrossIn > 40) && (acrossIn <= 60)) {
+        acrossIn = 17;
+    }
+    if ((acrossIn > 60) && (acrossIn <= 120)) {
+        acrossIn = 18;
+    }
+    if (acrossIn > 120) {
+        acrossIn = 19;
+    }
+
+    if (lengthIn <= 10) {
+        lengthIn = lengthIn;
+    }
+    if ((lengthIn > 30) && (lengthIn <= 40)) {
+        lengthIn = 31;
+    }
+    if ((lengthIn > 40) && (lengthIn <= 60)) {
+        lengthIn = 32;
+    }
+    if ((lengthIn > 60) && (lengthIn <= 120)) {
+        lengthIn = 33;
+    }
+    if ((lengthIn > 120)) {
+        lengthIn = 34;
+    }
     tableRange = tableRange + (String.fromCharCode(65 + acrossIn)) + (lengthIn + 1);
 
     console.log(tableRange);
@@ -228,10 +275,18 @@ if((lengthIn>120)){
     }).then(function (response) {
         var range1 = response.result;
         var criticalValue = (range1.values[0][0]);
-        if (ratioIn>=criticalValue){
-            console.log('there is a sig diff in the data. F = ' +ratioIn);
-        }else{
-            console.log('there is NO sig diff in the data. F = ' +ratioIn);
+        if (ratioIn >= criticalValue) {
+            console.log('there is a sig diff in the data. F = ' + ratioIn);
+            var delayMillis = 2000;
+            setTimeout(function () {
+                GoogleConnectorpushToSheet(chunk);
+            }, delayMillis);
+        } else {
+            console.log('there is NO sig diff in the data. F = ' + ratioIn);
+            var delayMillis = 2000;
+            setTimeout(function () {
+                GoogleConnectorpushToSheet(chunk);
+            }, delayMillis);
         }
 
     });
