@@ -18,8 +18,6 @@ var tableRange = "a = 0.10!";
 
 function pairedTtestRun() {
 
-    console.log('hi i am workijng');
-
     sheetID = (document.getElementById("userInput").value);
     console.log(sheetID);
     gapi.auth.authorize(
@@ -30,11 +28,7 @@ function pairedTtestRun() {
             }, pairedTtesthandleAuthResult);
 }
 
-/**
- * Handle response from authorization server.
- *
- * @param {Object} authResult Authorization result.
- */
+
 function pairedTtesthandleAuthResult(authResult) {
     var authorizeDiv = document.getElementById('authorize-div');
     if (authResult && !authResult.error) {
@@ -119,7 +113,6 @@ function pairedTtestAnova123(input) {
               console.log(data);
                 obj = JSON.parse(json);
                 obj = JSON && JSON.parse(json) || $.parseJSON(json);
-
                    console.log(obj.data[0][1]);
                    console.log('sdfsdfsdf');
 
