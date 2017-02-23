@@ -18,14 +18,23 @@ var allTheNumbers = [];
 
 function calculateNorm() {
 
-    sheetID = (document.getElementById("userInput").value);
-    console.log(sheetID);
-    gapi.auth.authorize(
-            {
-                'client_id': CLIENT_ID,
-                'scope': SCOPES.join(' '),
-                'immediate': true
-            }, calculateNormhandleAuthResult);
+//    var a = document.getElementById("userLastColumnLetters").value;
+//    var b = document.getElementById("sheetName").value;
+//    var c = document.getElementById("userInput").value;
+//    
+
+        sheetID = (document.getElementById("userInput").value);
+        console.log(sheetID);
+        gapi.auth.authorize(
+                {
+                    'client_id': CLIENT_ID,
+                    'scope': SCOPES.join(' '),
+                    'immediate': true
+                }, calculateNormhandleAuthResult);
+    
+
+        
+    
 }
 
 
@@ -71,18 +80,9 @@ function calculateNormlistMajors() {
         spreadsheetId: sheetID,
         range: rangeInput,
     }).then(function (response) {
-            var range = response.result;
-//            console.log(range.values);
-//            for (x = 0; x < range.values.length; x++) {
-//                for (i = 0; i < range.values[x].length; i++) {
-//                    if(range.values[x][i]){
-//                        allTheNumbers.push(range.values[x][i]);                       
-//                    }
-//                }
-//            }     
-            
-            calculateNormAnova123(range);
-        });
+        var range = response.result;
+        calculateNormAnova123(range);
+    });
 }
 
 
@@ -94,7 +94,6 @@ function calculateNormappendPre(message) {
 
 function calculateNormAnova123(input) {
 
-
     $.post('normalDist.php', {in1: JSON.stringify(input)},
             function (data)
             {
@@ -102,8 +101,65 @@ function calculateNormAnova123(input) {
                 obj = JSON.parse(json);
                 obj = JSON && JSON.parse(json) || $.parseJSON(json);
                 console.log(obj);
+
+                alert(obj.data[10][1]);
                 // var across = (obj.data[0][1]);
+                gapi.client.load(discoveryUrl).then(createGoogleObjects(obj));
+
 
             });
 
+}
+
+function createGoogleObjects(obj) {
+    console.log('asdfsdfsdfsdfsdf');
+    var nameOfSheet = (document.getElementById("sheetName").value);
+    nameOfSheet += "-Anderson-Darling-Normal-Distribution-Test"
+    gapi.client.sheets.spreadsheets.batchUpdate({
+        spreadsheetId: sheetID,
+        requests: [
+            {
+                addSheet: {
+                    properties: {
+                        title: nameOfSheet,
+                        gridProperties: {
+                            rowCount: 20,
+                            columnCount: 12
+                        },
+                        tabColor: {
+                            red: 1.0,
+                            green: 0.3,
+                            blue: 0.4
+                        }
+                    }
+                }
+            }
+        ]
+
+    }).then(function (response1234) {
+        console.log('1');
+    });
+
+    var delayMillis = 2000;
+    setTimeout(function () {
+
+        console.log('look below me');
+        gapi.client.sheets.spreadsheets.values.update({
+            spreadsheetId: sheetID,
+            range: nameOfSheet + "!A1:B7",
+            valueInputOption: "USER_ENTERED",
+            majorDimension: "ROWS",
+            values: [
+                ["Average", obj.data[0][1]],
+                ["Sigma(Standard Devation(NOT population SD))", obj.data[1][1]],
+                ["N", obj.data[11][1]],
+                ["AD", obj.data[7][1]],
+                ["AD*", obj.data[8][1]],
+                ["P-value", obj.data[9][1]],
+                ["Normal or Not Normalises?", obj.data[10][1]]
+            ],
+        }).then(function (response1234) {
+            console.log('2');
+        });
+    }, delayMillis);
 }

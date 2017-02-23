@@ -14,7 +14,7 @@ var numberOfColumns = 0;
 
 var rangeInput = "empty range";
 
-var tableRange = "a = 0.10!";
+var tableRange1 = "Sheet1!";
 
 function pairedTtestRun() {
 
@@ -86,7 +86,7 @@ function pairedTtestlistMajors() {
         range: rangeInput,
     }).then(function (response) {
         var range = response.result;
-        //console.log(range);
+        console.log(range.values.length);
         pairedTtestAnova123(range)
     });
 
@@ -103,9 +103,6 @@ function pairedTtestappendPre(message) {
 
 function pairedTtestAnova123(input) {
     
-    //console.log(input);
-    
-
     $.post('pairedTtest.php', {in1: JSON.stringify(input)},
             function (data)
             {
@@ -113,80 +110,86 @@ function pairedTtestAnova123(input) {
               console.log(data);
                 obj = JSON.parse(json);
                 obj = JSON && JSON.parse(json) || $.parseJSON(json);
-                   console.log(obj.data[0][1]);
-                   console.log('sdfsdfsdf');
+                  var tRatio =  obj.data[0][1];
+                   var length = (obj.data[1][1])-1;
+                   
+                   console.log(tRatio);
+                   console.log(length);
 
-               // gapi.client.load(discoveryUrl).then(lookUpFtable(across,down,ratio));
+              gapi.client.load(discoveryUrl).then(pairedTtestlookUpFtable(tRatio,length));
 
             });
 }
 
-function pairedTtestlookUpFtable(acrossIn, lengthIn, ratioIn) {
+function pairedTtestlookUpFtable(tRatioIn,lengthIn) {
 
-    console.log(acrossIn);
-    console.log(lengthIn);
-    console.log(ratioIn);
-    if (acrossIn <= 10) {
-        acrossIn = acrossIn;
-    }
-    if ((acrossIn > 10) && (acrossIn <= 12)) {
-        acrossIn = 11;
-    }
-    if ((acrossIn > 12) && (acrossIn <= 15)) {
-        acrossIn = 12;
-    }
-    if ((acrossIn > 15) && (acrossIn <= 20)) {
-        acrossIn = 13;
-    }
-    if ((acrossIn > 20) && (acrossIn <= 24)) {
-        acrossIn = 14;
-    }
-    if ((acrossIn > 24) && (acrossIn <= 30)) {
-        acrossIn = 15;
-    }
-    if ((acrossIn > 30) && (acrossIn <= 40)) {
-        acrossIn = 16;
-    }
-    if ((acrossIn > 40) && (acrossIn <= 60)) {
-        acrossIn = 17;
-    }
-    if ((acrossIn > 60) && (acrossIn <= 120)) {
-        acrossIn = 18;
-    }
-    if (acrossIn > 120) {
-        acrossIn = 19;
-    }
-
-    if (lengthIn <= 10) {
-        lengthIn = lengthIn;
-    }
-    if ((lengthIn > 30) && (lengthIn <= 40)) {
-        lengthIn = 31;
-    }
-    if ((lengthIn > 40) && (lengthIn <= 60)) {
-        lengthIn = 32;
-    }
-    if ((lengthIn > 60) && (lengthIn <= 120)) {
-        lengthIn = 33;
-    }
-    if ((lengthIn > 120)) {
-        lengthIn = 34;
-    }
-    tableRange = tableRange + (String.fromCharCode(65 + acrossIn)) + (lengthIn + 1);
-    console.log(tableRange);
+    tableRange1 = tableRange1 + "B" + (lengthIn + 1);
+    console.log(tableRange1);
     gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: '1Ugb7TtHSuDVyibD70qokK_QLu5nv9pg3daw_J-7eEsU',
-        range: tableRange,
+        spreadsheetId: '1ubh4Mk7zxH5D5bF_uMqg9AAgWFkEfXunQkDpqgEufwA',
+        range: tableRange1,
     }).then(function (response) {
         var range1 = response.result;
         var criticalValue = (range1.values[0][0]);
-        if (ratioIn >= criticalValue) {
-            console.log('there is a sig diff in the data. F = ' + ratioIn);
-            console.log('crit is: ' + criticalValue);
+        if ((tRatioIn <= -Math.abs(criticalValue))||(tRatioIn >= criticalValue)) {
+            console.log('We reject the null hypothises as ' );
+            var stringPass1 = 'We reject the null hypothises as';
+            
+            gapi.client.load(discoveryUrl).then(PairedTtestcreateGoogleObjects(stringPass1));
+
         } else {
-            console.log('there is NO sig diff in the data. F = ' + ratioIn);
-            console.log('crit is: ' + criticalValue);
+            console.log('We ACCEPT the null hypothises as');
+            var stringPass1 = 'We ACCEPT the null hypothises as';
+            gapi.client.load(discoveryUrl).then(PairedTtestcreateGoogleObjects(stringPass1));
+
         }
 
     });
+}
+
+function PairedTtestcreateGoogleObjects(obj) {
+    console.log('asdfsdfsdfsdfsdf');
+    var nameOfSheet = (document.getElementById("sheetName").value);
+    nameOfSheet += "-T-Test-output"
+    gapi.client.sheets.spreadsheets.batchUpdate({
+        spreadsheetId: sheetID,
+        requests: [
+            {
+                addSheet: {
+                    properties: {
+                        title: nameOfSheet,
+                        gridProperties: {
+                            rowCount: 20,
+                            columnCount: 12
+                        },
+                        tabColor: {
+                            red: 1.0,
+                            green: 0.3,
+                            blue: 0.4
+                        }
+                    }
+                }
+            }
+        ]
+
+    }).then(function (response1234) {
+        console.log('1');
+    });
+
+    var delayMillis = 2000;
+    setTimeout(function () {
+
+        console.log('look below me');
+        gapi.client.sheets.spreadsheets.values.update({
+            spreadsheetId: sheetID,
+            range: nameOfSheet + "!A1:B7",
+            valueInputOption: "USER_ENTERED",
+            majorDimension: "ROWS",
+            values: [
+                [obj, obj],
+            ],
+        }).then(function (response1234) {
+            console.log('2');
+        });
+    }, delayMillis);
 }

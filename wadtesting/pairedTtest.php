@@ -38,6 +38,7 @@ $obj = new stdClass();
 $obj->label = "object";
 $obj->data = array(
     array('tValue',$tValue ),
+    array('length',$length ),
 
 
 );

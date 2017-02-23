@@ -82,6 +82,12 @@ if($ADstar < 0.2){
     $p = 1- exp(((-13.436)+(101.14*($ADstar)))-(223.73*($ADstar*$ADstar)));
 }
 
+if($p>=0.05){
+   $isNormal = "The data you have is normal";
+}else{
+   $isNormal = "The data you have is NOT normal";
+}
+
 function erf($x) {
     # constants
     $a1 = 0.254829592;
@@ -117,7 +123,9 @@ $obj->data = array(
     array('s', $s),
     array('AD', $AD),
     array('ADstar', $ADstar),
-     array('p', $p),
+    array('p', $p),
+    array('normal', $isNormal),
+    array('N',  sizeof($allTheNumbers))
 );
 
 echo json_encode($obj)

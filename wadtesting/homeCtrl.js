@@ -15,7 +15,7 @@ angular
                     repeatedAnovaRun();
                 };
                 $scope.calculateNorm = function () {
-                    alert('4');
+//                    alert('4');
                     calculateNorm();
                 };
             }]);
