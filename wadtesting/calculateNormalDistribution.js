@@ -101,8 +101,6 @@ function calculateNormAnova123(input) {
                 obj = JSON.parse(json);
                 obj = JSON && JSON.parse(json) || $.parseJSON(json);
                 console.log(obj);
-
-                alert(obj.data[10][1]);
                 // var across = (obj.data[0][1]);
                 gapi.client.load(discoveryUrl).then(createGoogleObjects(obj));
 
