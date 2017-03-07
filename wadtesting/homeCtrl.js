@@ -2,6 +2,10 @@ angular
         .module('app')
         .controller('homeCtrl', ['$scope', function ($scope) {
 
+                $scope.checkSphericty = function () {
+                    alert('5');
+                    checkSphericty();
+                };
                 $scope.checkAuth1 = function () {
                     alert('1');
                     checkAuth1();

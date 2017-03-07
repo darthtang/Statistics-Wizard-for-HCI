@@ -6,12 +6,6 @@ $object = json_decode($input1, true);
 
 $length = sizeof($object["values"]);
 
-$t0 = array(16,12,23,8,3,5,19,22,12,16,14,24,9,3,2); 
-$t1 = array(22,18,24,20,12,13,22,22,20,22,25,26,12,9,8); 
-$t2 = array(23,24,26,28,13,11,25,23,22,26,18,21,20,13,6); 
-$t3 = array(25,29,27,30,17,15,26,26,24,29,21,23,23,16,10); 
-$cars2 = stats_covariance ( $t0 , $t1 );
-
 
 $allTheNumbers = [];
 $sigmaArray = [];
@@ -130,8 +124,7 @@ $obj->data = array(
     array('ADstar', $ADstar),
     array('p', $p),
     array('normal', $isNormal),
-    array('N',  sizeof($allTheNumbers)),
-    array('Covariance', $cars2)
+    array('N',  sizeof($allTheNumbers))
 );
 
 echo json_encode($obj)
