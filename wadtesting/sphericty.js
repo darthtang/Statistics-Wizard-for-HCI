@@ -32,9 +32,6 @@ function checkSphericty() {
                 'immediate': true
             }, checkSpherictyAuthResult);
 
-
-
-
 }
 
 
