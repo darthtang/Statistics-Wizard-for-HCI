@@ -17,6 +17,8 @@ $t1 = array(22, 18, 24, 20, 12, 13, 22, 22, 20, 22, 25, 26, 12, 9, 8);
 $cars2 = stats_covariance($t0, $t1);
 //$cars3 = stats_variance($t0,true);
 
+$sumOfVariances = 0;
+
 $listOfObjectsSP = [];
 for ($i = 0; $i < $length; $i++) {
 
@@ -25,7 +27,11 @@ for ($i = 0; $i < $length; $i++) {
     ${'object' . $i}->variance = stats_variance($object["values"][$i], true);
     ${'object' . $i}->listOfNumbers = $object["values"][$i];
     array_push($listOfObjectsSP, ${'object' . $i});
+    
+    $sumOfVariances = $sumOfVariances + ${'object' . $i}->variance;
 }
+
+$stringFromArray =[];
 
 for ($i = 0; $i < $length; $i++) {
 
@@ -34,17 +40,26 @@ for ($i = 0; $i < $length; $i++) {
     for ($t = 0; $t < $length; $t++) {
 
         ${'ARRAY' . $i}[$t] = stats_covariance($listOfObjectsSP[$i]->listOfNumbers, $listOfObjectsSP[$t]->listOfNumbers);
-    }
+        array_push($stringFromArray, (stats_covariance($listOfObjectsSP[$i]->listOfNumbers, $listOfObjectsSP[$t]->listOfNumbers)));        
+        
+        }
+        
+        array_push($stringFromArray,";");
 }
+
+$theString = implode(",", $stringFromArray);
+$theStringForSheet = "=MDETERM({".$theString."})";
+$stringCleaned = str_replace(",;,", ";", $theStringForSheet);
+$stringCleaned2 = str_replace(",;})", "})", $stringCleaned);
 
 
 $obj = new stdClass();
 $obj->label = "object";
 $obj->data = array(
-    array('objects', ${'ARRAY' . 0}),
-    array('objects', ${'ARRAY' . 1}),
-    array('objects', ${'ARRAY' . 2}),
-    array('objects', ${'ARRAY' . 3})
+    array('stringForSpreadsheet',$stringCleaned2),
+    array('sumOfVariances', $sumOfVariances),
+    array('length', $length),
+
 );
 
 echo json_encode($obj)

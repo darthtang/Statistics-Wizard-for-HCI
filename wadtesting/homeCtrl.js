@@ -6,6 +6,10 @@ angular
                     alert('5');
                     checkSphericty();
                 };
+                 $scope.wilcoxon = function () {
+                    alert('g');
+                    wilcoxonRun();
+                };
                 $scope.checkAuth1 = function () {
                     alert('1');
                     checkAuth1();

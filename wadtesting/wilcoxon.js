@@ -16,34 +16,34 @@ var tableRange = "a = 0.10!";
 
 var allTheNumbers = [];
 
-function checkSphericty() {
+function wilcoxonRun() {
 
 //    var a = document.getElementById("userLastColumnLetters").value;
 //    var b = document.getElementById("sheetName").value;
 //    var c = document.getElementById("userInput").value;
 //    
 
-    sheetID = (document.getElementById("userInput").value);
-    console.log(sheetID);
-    gapi.auth.authorize(
-            {
-                'client_id': CLIENT_ID,
-                'scope': SCOPES.join(' '),
-                'immediate': true
-            }, checkSpherictyAuthResult);
+        sheetID = (document.getElementById("userInput").value);
+        console.log(sheetID);
+        gapi.auth.authorize(
+                {
+                    'client_id': CLIENT_ID,
+                    'scope': SCOPES.join(' '),
+                    'immediate': true
+                }, wilcoxonhandleAuthResult);
+    
 
-
-
-
+        
+    
 }
 
 
-function checkSpherictyAuthResult(authResult) {
+function wilcoxonhandleAuthResult(authResult) {
     var authorizeDiv = document.getElementById('authorize-div');
     if (authResult && !authResult.error) {
         // Hide auth UI, then load client library.
         authorizeDiv.style.display = 'none';
-        checkSpherictyloadSheetsApi();
+        wilcoxonloadSheetsApi();
 
     } else {
         // Show auth UI, allowing the user to initiate authorization by
@@ -53,21 +53,21 @@ function checkSpherictyAuthResult(authResult) {
 }
 
 
-function checkSpherictyhandleAuthClick(event) {
+function wilcoxonhandleAuthClick(event) {
     gapi.auth.authorize(
             {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
-            checkSpherictyhandleAuthResult);
+            wilcoxonhandleAuthResult);
     return false;
 }
 
 
-function checkSpherictyloadSheetsApi() {
+function wilcoxonloadSheetsApi() {
 
-    gapi.client.load(discoveryUrl).then(checkSpherictylistMajors);
+    gapi.client.load(discoveryUrl).then(wilcoxonlistMajors);
 
 }
 
-function checkSpherictylistMajors() {
+function wilcoxonlistMajors() {
 
 
     var lastLetterLower = (document.getElementById("userLastColumnLetters").value);
@@ -82,64 +82,43 @@ function checkSpherictylistMajors() {
         majorDimension: "COLUMNS",
     }).then(function (response) {
         var range = response.result;
-        console.log('sdfsdfsdf');
+        console.log('***********');
         console.log(range);
-        checkSpherictyAnova123(range);
+         console.log('***********');
+        wilcoxonAnova123(range);
     });
 }
 
 
-function checkSpherictyappendPre(message) {
+function wilcoxonappendPre(message) {
     var pre = document.getElementById('output');
     var textContent = document.createTextNode(message + '\n');
     pre.appendChild(textContent);
 }
 
-function checkSpherictyAnova123(input) {
-
-    $.post('sphericity.php', {in1: JSON.stringify(input)},
+function wilcoxonAnova123(input) {
+    console.log("dfsdfsdfdfsf");
+    
+    $.post('wilcoxon.php', {in1: JSON.stringify(input)},
             function (data)
             {
                 var json = data;
                 obj = JSON.parse(json);
                 obj = JSON && JSON.parse(json) || $.parseJSON(json);
-                console.log(obj);
+//                console.log(obj.data[0][1]);
+                console.log(obj.data);
                 // var across = (obj.data[0][1]);
-                gapi.client.load(discoveryUrl).then(findDeterminant(obj));
-                gapi.client.load(discoveryUrl).then(calculateW(obj));
+                //gapi.client.load(discoveryUrl).then(wilcoxoncreateGoogleObjects(obj));
 
 
             });
 
 }
 
-function calculateW(obj) {
+function wilcoxoncreateGoogleObjects(obj) {
     console.log('asdfsdfsdfsdfsdf');
     var nameOfSheet = (document.getElementById("sheetName").value);
-    nameOfSheet += "-Mauchly-Test-OfSphericity"
-    var sumOfVariances = obj.data[1][1];
-    var length = obj.data[2][1];
-
-    gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: sheetID,
-        range: "tempSheetForDeterm!A1",
- 
-    }).then(function (response) {
-        var range = response.result;
-        console.log('i have the answer');
-        var det = range.values[0][0];
-        console.log(sumOfVariances);
-        console.log(length);
-        console.log(det);
-        var w = det*((length+1)*sumOfVariances)*length+1;
-        var w2 = ((det*((length+1)*sumOfVariances)*length))+1;
-        var w3 = det*(length*sumOfVariances)*(length+1);
-        console.log(w);
-        console.log(w3);
-       
-        
-    });
-
+    nameOfSheet += "-Anderson-Darling-Normal-Distribution-Test"
     gapi.client.sheets.spreadsheets.batchUpdate({
         spreadsheetId: sheetID,
         requests: [
@@ -175,55 +154,13 @@ function calculateW(obj) {
             valueInputOption: "USER_ENTERED",
             majorDimension: "ROWS",
             values: [
-                [obj.data[0][1]],
-            ],
-        }).then(function (response1234) {
-            console.log('2');
-        });
-    }, delayMillis);
-}
-
-function findDeterminant(obj) {
-    console.log('asdfsdfsdfsdfsdf');
-    var nameOfSheet = (document.getElementById("sheetName").value);
-//    nameOfSheet += "-Anderson-Darling-Normal-Distribution-Test"
-    var tempName = "tempSheetForDeterm"
-    gapi.client.sheets.spreadsheets.batchUpdate({
-        spreadsheetId: sheetID,
-        requests: [
-            {
-                addSheet: {
-                    properties: {
-                        title: tempName,
-                        gridProperties: {
-                            rowCount: 20,
-                            columnCount: 12
-                        },
-                        tabColor: {
-                            red: 1.0,
-                            green: 0.3,
-                            blue: 0.4
-                        }
-                    }
-                }
-            }
-        ]
-
-    }).then(function (response1234) {
-        console.log('1');
-    });
-
-    var delayMillis = 2000;
-    setTimeout(function () {
-
-        console.log('look below me');
-        gapi.client.sheets.spreadsheets.values.update({
-            spreadsheetId: sheetID,
-            range: tempName + "!A1:B7",
-            valueInputOption: "USER_ENTERED",
-            majorDimension: "ROWS",
-            values: [
-                [obj.data[0][1]],
+                ["Average", obj.data[0][1]],
+                ["Sigma(Standard Devation(NOT population SD))", obj.data[1][1]],
+                ["N", obj.data[11][1]],
+                ["AD", obj.data[7][1]],
+                ["AD*", obj.data[8][1]],
+                ["P-value", obj.data[9][1]],
+                ["Normal or Not Normalises?", obj.data[10][1]]
             ],
         }).then(function (response1234) {
             console.log('2');
