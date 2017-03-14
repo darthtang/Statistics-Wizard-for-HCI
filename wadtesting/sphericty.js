@@ -31,7 +31,7 @@ function checkSphericty() {
                 'scope': SCOPES.join(' '),
                 'immediate': true
             }, checkSpherictyAuthResult);
-
+            
 }
 
 
@@ -128,11 +128,10 @@ function calculateW(obj) {
         console.log(sumOfVariances);
         console.log(length);
         console.log(det);
-        var w = det*((length+1)*sumOfVariances)*length+1;
-        var w2 = ((det*((length+1)*sumOfVariances)*length))+1;
-        var w3 = det*(length*sumOfVariances)*(length+1);
+        var temp = sumOfVariances/0.05;
+        var w = det/Math.pow(temp,0.05);
+        
         console.log(w);
-        console.log(w3);
        
         
     });
