@@ -10,14 +10,15 @@ $length = sizeof($object["values"]);
 
 $thing = $object["values"];
 
-$t0 = array(16, 12, 23, 8, 3, 5, 19, 22, 12, 16, 14, 24, 9, 3, 2);
-$t1 = array(22, 18, 24, 20, 12, 13, 22, 22, 20, 22, 25, 26, 12, 9, 8);
-//$t2 = array(23,24,26,28,13,11,25,23,22,26,18,21,20,13,6); 
-//$t3 = array(25,29,27,30,17,15,26,26,24,29,21,23,23,16,10); 
-$cars2 = stats_covariance($t0, $t1);
-//$cars3 = stats_variance($t0,true);
-
 $sumOfVariances = 0;
+$groups = $length;
+$meansOfVariances = 0;
+$matrixMean = 0;
+$ssMatrix = 0;
+$ssRowMeans = 0;
+$ggNumerator = 0;
+$ggDenominator = 0;
+$ggEpsiolon = 0;
 
 $listOfObjectsSP = [];
 for ($i = 0; $i < $length; $i++) {
@@ -27,39 +28,78 @@ for ($i = 0; $i < $length; $i++) {
     ${'object' . $i}->variance = stats_variance($object["values"][$i], true);
     ${'object' . $i}->listOfNumbers = $object["values"][$i];
     array_push($listOfObjectsSP, ${'object' . $i});
-    
+
     $sumOfVariances = $sumOfVariances + ${'object' . $i}->variance;
 }
+$meansOfVariances = $sumOfVariances / $groups;
 
-$stringFromArray =[];
+$stringFromArray = [];
+$totalOfMatrixMeanTemp = 0;
+$ssmatrixTemp = [];
+$ssmatrixsquared = [];
+$meanOfCovairance = [];
+$ssrowmeansarr =[];
 
 for ($i = 0; $i < $length; $i++) {
 
-    ${'ARRAY' . $i} = new SplFixedArray($length);
+    ${'ARRAY' . $i} = [];
 
     for ($t = 0; $t < $length; $t++) {
-
         ${'ARRAY' . $i}[$t] = stats_covariance($listOfObjectsSP[$i]->listOfNumbers, $listOfObjectsSP[$t]->listOfNumbers);
-        array_push($stringFromArray, (stats_covariance($listOfObjectsSP[$i]->listOfNumbers, $listOfObjectsSP[$t]->listOfNumbers)));        
+        array_push($ssmatrixTemp,${'ARRAY' . $i}[$t]);
         
         }
-        
-        array_push($stringFromArray,";");
 }
 
-$theString = implode(",", $stringFromArray);
-$theStringForSheet = "=MDETERM({".$theString."})";
-$stringCleaned = str_replace(",;,", ";", $theStringForSheet);
-$stringCleaned2 = str_replace(",;})", "})", $stringCleaned);
+$tempForMatrixMean = 0;
+for ($i = 0; $i < $length; $i++) {
 
+    $tempForMatrixMean = $tempForMatrixMean + (array_sum(${'ARRAY' . $i})/sizeof(${'ARRAY' . $i}));
+    array_push($meanOfCovairance, (array_sum(${'ARRAY' . $i})/sizeof(${'ARRAY' . $i})));
+       }
+
+for($i=0;$i<sizeof($meanOfCovairance);$i++){
+    array_push($ssrowmeansarr, ($meanOfCovairance[$i]*$meanOfCovairance[$i]));   
+}
+$sumOfsquaresrowmeans = array_sum($ssrowmeansarr);
+       
+       
+       
+
+$matrixMean = $tempForMatrixMean/$groups;
+
+
+for($i=0;$i<sizeof($ssmatrixTemp);$i++){
+    array_push($ssmatrixsquared, ($ssmatrixTemp[$i]*$ssmatrixTemp[$i]));   
+}
+$sumOfsquares = array_sum($ssmatrixsquared);
+
+for($i=0;$i<$length;$i++){
+   $lastItem = sizeof(${'ARRAY' . $i})-1;
+   
+}
+
+
+//$meansOfVariances = 41.7667; 
+//$matrixMean = 34.61488; 
+//$ssMatrix = 20041.47; //$sumOfsquares
+//$ssRowMeans = 4832.433; //$sumOfsquaresrowmeans
+//        
+
+$ggNumerator = ($groups*($meansOfVariances-$matrixMean))*($groups*($meansOfVariances-$matrixMean));
+$ggDenominator = ($groups-1)*($ssMatrix-2*$groups*$ssRowMeans+($groups*$groups)*($matrixMean*$matrixMean));
 
 $obj = new stdClass();
 $obj->label = "object";
 $obj->data = array(
-    array('stringForSpreadsheet',$stringCleaned2),
-    array('sumOfVariances', $sumOfVariances),
-    array('length', $length),
-
+    array('groups', $groups),
+    array('means of variances', $meansOfVariances),
+    array('matrix means', $matrixMean),
+    array('ss matrix', $sumOfsquares),
+    array('ss row means', $sumOfsquaresrowmeans),
+    array('numerator', $ggNumerator),
+   array('denominator', $ggDenominator),
+//    array('GG epsilon', $stringCleaned2)
 );
 
 echo json_encode($obj)

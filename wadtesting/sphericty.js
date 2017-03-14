@@ -103,80 +103,8 @@ function checkSpherictyAnova123(input) {
                 console.log(obj);
                 // var across = (obj.data[0][1]);
                 gapi.client.load(discoveryUrl).then(findDeterminant(obj));
-                gapi.client.load(discoveryUrl).then(calculateW(obj));
-
-
             });
 
-}
-
-function calculateW(obj) {
-    console.log('asdfsdfsdfsdfsdf');
-    var nameOfSheet = (document.getElementById("sheetName").value);
-    nameOfSheet += "-Mauchly-Test-OfSphericity"
-    var sumOfVariances = obj.data[1][1];
-    var length = obj.data[2][1];
-
-    gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: sheetID,
-        range: "tempSheetForDeterm!A1",
- 
-    }).then(function (response) {
-        var range = response.result;
-        console.log('i have the answer');
-        var det = range.values[0][0];
-        console.log(sumOfVariances);
-        console.log(length);
-        console.log(det);
-        var temp = sumOfVariances/0.05;
-        var w = det/Math.pow(temp,0.05);
-        
-        console.log(w);
-       
-        
-    });
-
-    gapi.client.sheets.spreadsheets.batchUpdate({
-        spreadsheetId: sheetID,
-        requests: [
-            {
-                addSheet: {
-                    properties: {
-                        title: nameOfSheet,
-                        gridProperties: {
-                            rowCount: 20,
-                            columnCount: 12
-                        },
-                        tabColor: {
-                            red: 1.0,
-                            green: 0.3,
-                            blue: 0.4
-                        }
-                    }
-                }
-            }
-        ]
-
-    }).then(function (response1234) {
-        console.log('1');
-    });
-
-    var delayMillis = 2000;
-    setTimeout(function () {
-
-        console.log('look below me');
-        gapi.client.sheets.spreadsheets.values.update({
-            spreadsheetId: sheetID,
-            range: nameOfSheet + "!A1:B7",
-            valueInputOption: "USER_ENTERED",
-            majorDimension: "ROWS",
-            values: [
-                [obj.data[0][1]],
-            ],
-        }).then(function (response1234) {
-            console.log('2');
-        });
-    }, delayMillis);
 }
 
 function findDeterminant(obj) {
