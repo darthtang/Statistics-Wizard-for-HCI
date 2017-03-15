@@ -133,21 +133,20 @@ function pairedTtestlookUpFtable(tRatioIn,lengthIn) {
         var criticalValue = (range1.values[0][0]);
         if ((tRatioIn <= -Math.abs(criticalValue))||(tRatioIn >= criticalValue)) {
             console.log('We reject the null hypothises as ' );
-            var stringPass1 = 'We reject the null hypothises as';
+            var stringPass1 = 'We REJECT the null hypothises as the T-Ratio is more than the critical value or the T-Ratio is less than the Inverse of the critical value';
             
-            gapi.client.load(discoveryUrl).then(PairedTtestcreateGoogleObjects(stringPass1));
+            gapi.client.load(discoveryUrl).then(PairedTtestcreateGoogleObjects(stringPass1,criticalValue, tRatioIn,-Math.abs(criticalValue)));
 
         } else {
-            console.log('We ACCEPT the null hypothises as');
-            var stringPass1 = 'We ACCEPT the null hypothises as';
-            gapi.client.load(discoveryUrl).then(PairedTtestcreateGoogleObjects(stringPass1));
+            var stringPass1 = 'We ACCEPT the null hypothises as the T-Ratio is BETWEEN the critical value AND the Inverse of the critical value';
+            gapi.client.load(discoveryUrl).then(PairedTtestcreateGoogleObjects(stringPass1,criticalValue,tRatioIn,-Math.abs(criticalValue)));
 
         }
 
     });
 }
 
-function PairedTtestcreateGoogleObjects(obj) {
+function PairedTtestcreateGoogleObjects(answer,critval,TRI,inv) {
     console.log('asdfsdfsdfsdfsdf');
     var nameOfSheet = (document.getElementById("sheetName").value);
     nameOfSheet += "-T-Test-output"
@@ -186,7 +185,13 @@ function PairedTtestcreateGoogleObjects(obj) {
             valueInputOption: "USER_ENTERED",
             majorDimension: "ROWS",
             values: [
-                [obj, obj],
+                ["The Critical value", critval],
+                ["inverse of critical value", inv],
+                ["tRatio", TRI],
+                [answer]
+                
+//                [answer, critval],
+//                [TRI]
             ],
         }).then(function (response1234) {
             console.log('2');
