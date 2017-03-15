@@ -12,29 +12,21 @@ var numberOfColumns = 0;
 
 var rangeInput = "empty range";
 
-var tableRange = "a = 0.10!";
+var tableRangeWilcoxon = "wilcoxontable!A";
 
 var allTheNumbers = [];
 
 function wilcoxonRun() {
 
-//    var a = document.getElementById("userLastColumnLetters").value;
-//    var b = document.getElementById("sheetName").value;
-//    var c = document.getElementById("userInput").value;
-//    
+    sheetID = (document.getElementById("userInput").value);
+    console.log(sheetID);
+    gapi.auth.authorize(
+            {
+                'client_id': CLIENT_ID,
+                'scope': SCOPES.join(' '),
+                'immediate': true
+            }, wilcoxonhandleAuthResult);
 
-        sheetID = (document.getElementById("userInput").value);
-        console.log(sheetID);
-        gapi.auth.authorize(
-                {
-                    'client_id': CLIENT_ID,
-                    'scope': SCOPES.join(' '),
-                    'immediate': true
-                }, wilcoxonhandleAuthResult);
-    
-
-        
-    
 }
 
 
@@ -84,7 +76,7 @@ function wilcoxonlistMajors() {
         var range = response.result;
         console.log('***********');
         console.log(range);
-         console.log('***********');
+        console.log('***********');
         wilcoxonAnova123(range);
     });
 }
@@ -97,8 +89,7 @@ function wilcoxonappendPre(message) {
 }
 
 function wilcoxonAnova123(input) {
-    console.log("dfsdfsdfdfsf");
-    
+
     $.post('wilcoxon.php', {in1: JSON.stringify(input)},
             function (data)
             {
@@ -108,7 +99,7 @@ function wilcoxonAnova123(input) {
 //                console.log(obj.data[0][1]);
                 console.log(obj.data);
                 // var across = (obj.data[0][1]);
-                //gapi.client.load(discoveryUrl).then(wilcoxoncreateGoogleObjects(obj));
+                gapi.client.load(discoveryUrl).then(wilcoxoncreateGoogleObjects(obj));
 
 
             });
@@ -118,7 +109,7 @@ function wilcoxonAnova123(input) {
 function wilcoxoncreateGoogleObjects(obj) {
     console.log('asdfsdfsdfsdfsdf');
     var nameOfSheet = (document.getElementById("sheetName").value);
-    nameOfSheet += "-Anderson-Darling-Normal-Distribution-Test"
+    nameOfSheet += "-Wilcoxon-Test-Results";
     gapi.client.sheets.spreadsheets.batchUpdate({
         spreadsheetId: sheetID,
         requests: [
@@ -144,26 +135,56 @@ function wilcoxoncreateGoogleObjects(obj) {
         console.log('1');
     });
 
-    var delayMillis = 2000;
-    setTimeout(function () {
+    console.log(obj.data[1][1]);
+    console.log(tableRangeWilcoxon + obj.data[1][1]);
 
-        console.log('look below me');
-        gapi.client.sheets.spreadsheets.values.update({
-            spreadsheetId: sheetID,
-            range: nameOfSheet + "!A1:B7",
-            valueInputOption: "USER_ENTERED",
-            majorDimension: "ROWS",
-            values: [
-                ["Average", obj.data[0][1]],
-                ["Sigma(Standard Devation(NOT population SD))", obj.data[1][1]],
-                ["N", obj.data[11][1]],
-                ["AD", obj.data[7][1]],
-                ["AD*", obj.data[8][1]],
-                ["P-value", obj.data[9][1]],
-                ["Normal or Not Normalises?", obj.data[10][1]]
-            ],
-        }).then(function (response1234) {
-            console.log('2');
-        });
-    }, delayMillis);
+    gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: '1qgFlb_FZKpi5qQQdetCjxVf9FCEYiTLsAz463hH3uJ4',
+        range: tableRangeWilcoxon + obj.data[1][1],
+    }).then(function (response) {
+        var range = response.result;
+        console.log('***********');
+        var valueFromWilcoxonTable = range["values"][0];
+        var valueW = obj.data[0][1][0][0];
+        console.log(valueFromWilcoxonTable);
+        console.log(valueW);
+        console.log('***********');
+
+        var delayMillis = 2000;
+        setTimeout(function () {
+            displayResultsWilcoxon(valueFromWilcoxonTable,valueW)
+
+        }, delayMillis);
+
+
+
+    });
+}
+function displayResultsWilcoxon(tableVal,valueWin) {
+    
+    var nameOfSheet = (document.getElementById("sheetName").value);
+    nameOfSheet += "-Wilcoxon-Test-Results";
+    var integerTable = parseInt(tableVal);
+    
+    if(valueWin<=integerTable){
+        var answerOfWilcoxon = "there is a significant difference between the values as the the observer value (W) is less than the value found on the Wilcoxon Table" 
+    }else{
+        var answerOfWilcoxon = "there is NO significant difference between the values as the the observer value (W) is MORE than the value found on the Wilcoxon Table" 
+
+    }
+
+    gapi.client.sheets.spreadsheets.values.update({
+        spreadsheetId: sheetID,
+        range: nameOfSheet + "!A1:B7",
+        valueInputOption: "USER_ENTERED",
+        majorDimension: "ROWS",
+        values: [
+            ["Value from the Wilcoxon table", integerTable],
+           ["W result from the Wilcoxon Calculation", valueWin],
+           [answerOfWilcoxon]
+        ],
+    }).then(function (response1234) {
+        console.log('2');
+    });
+
 }

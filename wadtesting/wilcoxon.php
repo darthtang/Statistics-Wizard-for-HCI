@@ -26,8 +26,8 @@ exec("java -jar NewTest.jar $stringToPass" , $output);
 $obj = new stdClass();
 $obj->label = "object";
 $obj->data = array(
-    array('Mean', $output)
- //   array('Mean', $ranked)
+    array('Mean', $output),
+    array('length', sizeof($object["values"][1]))
 );
 
 echo json_encode($obj)
