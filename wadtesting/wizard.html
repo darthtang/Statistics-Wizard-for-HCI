@@ -10,13 +10,13 @@
         <p>Please enter the name of the sheet<input type="text" id="sheetName" value="Sheet12"></p>
         <div class="container">
             <h2>Find out if your data is in a normal distribution</h2>
-            <button ng-click= "checkSphericty()" class="btn btn-info" data-target="#norm">Click to find out a meaning</button>
+            <button ng-click= "calculateNorm()" class="btn btn-info" data-target="#norm">Click to find out a meaning</button>
             <div id="norm" class="collapse">
                 <div class="container">
                     <h2>Measures with reasonably normal distribution</h2>
                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo2">Click to find out a meaning</button>
                     <div id="demo2" class="collapse">
-                        Measures with reasonably normal distribution?A normal distribution is an arrangement of a data set in which most values cluster in the middle of the range and the rest taper off symmetrically toward either extreme. Height is one simple example of something that follows a normal distribution pattern: Most people are of average height, 
+                        A normal distribution is an arrangement of a data set in which most values cluster in the middle of the range and the rest taper off symmetrically toward either extreme. Height is one simple example of something that follows a normal distribution pattern: Most people are of average height, 
                         the numbers of people that are taller and shorter than average are fairly equal and a very small (and still roughly equivalent) number of people are either 
                         extremely tall or extremely short. Here’s an example of a normal distribution curve
                         <p>
@@ -26,54 +26,29 @@
                             <h2>2 Conditions</h2>
                             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#2conditions">Chi Squared information</button>
                             <div id="2conditions" class="collapse">
-                                2 conditions    
+                                Do you have exactly 2 conditions in your data set? I.E do you have 2 columns in your data set?
+
                                 <p>
-                                <div class="container">
-                                    <h2>Correlation</h2>
-                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#correlation">Click to find out a meaning</button>
-                                    <div id="correlation" class="collapse">
-                                        Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                        non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                        follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
-                                    </div>
-                                </div>
-                                <div class="container">
-                                    <h2>variance</h2>
-                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#variance">Click to find out a meaning</button>
-                                    <div id="variance" class="collapse">
-                                        Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                        non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                        follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
-                                    </div>
-                                </div>
                                 <div class="container">
                                     <h2>Means</h2>
                                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#means">Click to find out a meaning</button>
                                     <div id="means" class="collapse">
-                                        Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                        non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                        follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
+                                        To compare the means is the take the mean from both of your data sets and declaring if there is a significant difference between the 2 data sets based on the Means of the columns.
+
                                         <div class="container">
-                                            <h2>independent</h2>
-                                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#independent">Click to find out a meaning</button>
-                                            <div id="independent" class="collapse">
-                                                Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                                non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                                follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
-                                            </div>
-                                        </div>
-                                        <div class="container">
-                                            <h2>correlated - paired T test</h2>
+                                            <h2>Correlated Samples - Paired T Test</h2>
 
                                             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#correlatedsamp">Click to find out a meaning</button>
                                             <div id="correlatedsamp" class="collapse">
-                                                Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                                non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                                follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
-                                                <p>
+                                                A Correlated T test is measure between two experimental conditions with the caveat that the test subjects remain the same. 
+                                                The purpose of the Correlated T Test, which can also be referred to as a 
+                                                paired t test, determines if there is a significant difference between the 
+                                                means of the conditions. This is also very closely related to a repeated 
+                                                measures ANOVA where the Repeated Measures ANOVA also measures the difference
+                                                in means between conditions of the same test group. Where the Correlated t 
+                                                test differs is the number of experimental conditions that is considered in 
+                                                the statistical analysis.<p>
                                                     <button ng-click= "pairedTtestRun()" class="btn btn-info" >Click to run a Paired T test</button>
-                                                    <!--                                    <button type="button" class="btn btn-info" onclick="checkAuth1();">Click to run a One way Anova</button>-->
-
                                             </div>
                                         </div>
                                     </div>
@@ -87,52 +62,33 @@
                     <h2>Non Normal Distribution</h2>
                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo3">Click to find out a meaning</button>
                     <div id="demo3" class="collapse">
-                        Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                        non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                        follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
-
+                        <p>
+                            A Non normal distribution is an arrangement of a data set in which most values 
+                            do not cluster in the middle of the range and the rest do not taper off symmetrically toward either extreme.
                         <div class="container">
                             <h2>2 conditions</h2>
                             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#non2conditions">Click to find out a meaning</button>
                             <div id="non2conditions" class="collapse">
-                                Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
-
+                                Do you have exactly 2 conditions in your data set? I.E do you have 2 columns in your data set?
                                 <div class="container">
-                                    <h2>correlation</h2>
-                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#non2conditions-corr">Click to find out a meaning</button>
-                                    <div id="non2conditions-corr" class="collapse">
-                                        Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                        non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                        follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
-                                    </div>
-                                </div>
-                                <div class="container">
-                                    <h2>means - Wilcoxon</h2>
+                                    <h2>Comparing the Means</h2>
                                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#non2conditions-means">Click to find out a meaning</button>
                                     <div id="non2conditions-means" class="collapse">
-                                        Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                        non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                        follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
+                                        <p>
+                                            To compare the means is the take the mean from both of your data sets and declaring if there is a significant difference between the 2 data sets based on the Means of the columns.
 
                                         <div class="container">
-                                            <h2>independent samples</h2>
-                                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#non2conditions-means-mannwhitney">Click to find out a meaning</button>
-                                            <div id="non2conditions-means-mannwhitney" class="collapse">
-                                                Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                                non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                                follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
-                                            </div>
-                                        </div>
-                                        <div class="container">
-                                            <h2>correlated</h2>
+                                            <h2>Correlated Samples - The Wilcoxon Rank Test</h2>
                                             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#non2conditions-means-wilcoxon">Click to find out a meaning</button>
                                             <div id="non2conditions-means-wilcoxon" class="collapse">
-                                                Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                                non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                                follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
                                             </div>
+                                            <p>
+                                                A Wilcoxon Signed Rank Test is a test which measures 
+                                                between two experimental conditions for matched pairs of data. This test calculates the ranked mean difference between
+                                                two data sets to determine if there is a significant difference 
+                                                between the two data sets. This test is an alternative to the Correlated
+                                                T test. A Wilcoxon Signed Rank test is the alternative to the Correlated T test when the given data breaks the assumption of being in a normal distribution. 
+                                                <button ng-click="wilcoxon()" class="btn btn-info">RUN - Wilcoxon Signed Rank Test</button>
                                         </div>
 
                                     </div>
@@ -140,38 +96,39 @@
                             </div>
                         </div>
                         <div class="container">
-                            <h2>more than 2 conditions</h2>
+                            <h2>I have more than 2 Conditions</h2>
                             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#morethan2conditions">Click to find out a meaning</button>
                             <div id="morethan2conditions" class="collapse">
-                                Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
+                                Do you have more than 2 variables in your test data? I.E do you have more than 2 columns in you data set?
                                 <div class="container">
-                                    <h2>one way anova </h2>
+                                    <h2>One Way ANOVA</h2>
                                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#anova">Click to find out a meaning</button>
                                     <div id="anova" class="collapse">
-                                        Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                        non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                        follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
                                         <p>
-                                            <button ng-click="checkAuth1()" class="btn btn-info">Click to run a One way Anova</button>
-                                            <!--<button type="button" class="btn btn-info" onclick="repeatedAnovaRun();">Click to run a One way Anova</button>-->
-
+                                            A One Way ANOVA statistical test is the measurement statistical significance 
+                                            between 2 or more independent groups(also known as test subjects). The one way anova is very closely related to the repeated measures anova where both the One way anova and the repeated measures anova determine the statistical significance between the difference of means. But where the two statistical tests differ is the difference in test subjects as the One Way Anova does 
+                                            not require the test subjects in the control experiment to remain the sam
+                                            e through the study whereas a Repeated Measures Anova Statistical test does.<p>
+                                            <button ng-click="checkAuth1()" class="btn btn-info">RUN - One Way Anova</button>
 
                                     </div>
                                 </div>
                                 <div class="container">
-                                    <h2>repeated measures anova</h2>
+                                    <h2>Repeated Measures ANOVA</h2>
                                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#anova2">Click to find out a meaning</button>
                                     <div id="anova2" class="collapse">
-                                        Ranks or Non normal distribution of measures. Although the normal distribution takes center stage in statistics, many processes follow a
-                                        non normal distribution. This can be due to the data naturally following a specific type of non normal distribution (for example, bacteria growth naturally 
-                                        follows an exponential distribution). In other cases, your data collection methods or other methodologies may be at fault.
-
                                         <p>
-                                            <button ng-click ="repeatedAnovaRun()" class="btn btn-info">Click to run a One way Anova</button>
-                                            <!--                                    <button type="button" class="btn btn-info" onclick="checkAuth1();">Click to run a One way Anova</button>-->
-
+                                            A Repeated measures ANOVA is a measure between 2 or more conditions 
+                                            to determine if there is as significant difference when comparing the 
+                                            means of all conditions. A Repeated Measures ANOVA can also be refe
+                                            rred to as a within subjects ANOVA or an ANOVA for correlated samples. 
+                                            A Repeated Measures ANOVA also requires that the test subjects that 
+                                            are subject to the different experimental conditions remain the same. 
+                                            For example, the test subjects measured in a controlled experiment 
+                                            measurements must remain and perform for the several experiments that a 
+                                            study will undertake. 
+                                        <p>
+                                            <button ng-click ="repeatedAnovaRun()" class="btn btn-info">RUN - Repeated Measures ANOVA</button>
                                     </div>
                                 </div>
                             </div>

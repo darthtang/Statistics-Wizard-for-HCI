@@ -3,23 +3,23 @@ angular
         .controller('homeCtrl', ['$scope', function ($scope) {
 
                 $scope.checkSphericty = function () {
-                    alert('5');
+
                     checkSphericty();
                 };
                  $scope.wilcoxon = function () {
-                    alert('g');
+
                     wilcoxonRun();
                 };
                 $scope.checkAuth1 = function () {
-                    alert('1');
+
                     checkAuth1();
                 };
                 $scope.pairedTtestRun = function () {
-                    alert('2');
+
                     pairedTtestRun();
                 };
                 $scope.repeatedAnovaRun = function () {
-                    alert('3');
+
                     repeatedAnovaRun();
                 };
                 $scope.calculateNorm = function () {
@@ -50,7 +50,6 @@ angular
                         document.getElementById("userLastColumnLetters").readOnly = true;
                         document.getElementById("sheetName").readOnly = true;
                         document.getElementById("userInput").readOnly = true;
-                        alert('4');
                         calculateNorm();
                     }
                 };

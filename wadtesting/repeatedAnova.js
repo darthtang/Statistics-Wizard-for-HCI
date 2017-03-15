@@ -92,20 +92,32 @@ function listMajors123() {
     });
 
 }
-function pushToSheet(chunkinput) {
+function pushToSheet(chunkinput, reject, criticalValIN,ratio) {
     console.log('look below me');
     console.log(chunkinput);
+    
+        if (reject === 1) {
+        var resultOfTest = 'Your F-ratio is GREATER than your critical value. There is a significant difference between the columns';
+    } else {
+        var resultOfTest = 'Your F-ratio is LESS THAN than your critical value. There is no significant difference between the columns';
+
+    }
+    
+    var nameOfSheet = (document.getElementById("sheetName").value);
+    nameOfSheet += "-Repeated-Measures-ANOVA-Results";
+    
+    
     gapi.client.sheets.spreadsheets.values.update({
         spreadsheetId: sheetID,
-        range: "Deposits!A1:D5",
+        range: nameOfSheet,
         valueInputOption: "USER_ENTERED",
         majorDimension: "ROWS",
         values: [
-            [chunkinput.data[0][0], chunkinput.data[0][1], "Spicy", "Ship Date"],
-            [chunkinput.data[1][0], chunkinput.data[1][1], "4", "3/1/2016"],
-            [chunkinput.data[2][0], chunkinput.data[2][1], "2", "3/15/2016"],
-            ["Engine", "$100", "1", "30/20/2016"],
-            ["Totals", "=SUM(B2:B4)", "=SUM(C2:C4)", "=MAX(D2:D4)"]
+            [chunkinput.data[0][0], chunkinput.data[0][1]],
+            [chunkinput.data[1][0], chunkinput.data[1][1]],
+            [chunkinput.data[2][0], chunkinput.data[2][1]],
+            ['The critical value from the F TABLE', criticalValIN],
+            [resultOfTest]
         ],
     }).then(function (response1234) {
         console.log(response1234);
@@ -114,6 +126,9 @@ function pushToSheet(chunkinput) {
 
 function listMajors(input) {
 
+    var nameOfSheet = (document.getElementById("sheetName").value);
+    nameOfSheet += "-Repeated-Measures-ANOVA-Results";
+    
     console.log('asdfsdfsdfsdfsdf');
     gapi.client.sheets.spreadsheets.batchUpdate({
         spreadsheetId: sheetID,
@@ -121,7 +136,7 @@ function listMajors(input) {
             {
                 addSheet: {
                     properties: {
-                        title: "Deposits",
+                        title: nameOfSheet,
                         gridProperties: {
                             rowCount: 20,
                             columnCount: 12
@@ -273,7 +288,7 @@ function lookUpFtable(acrossIn, lengthIn, ratioIn, chunk) {
 
             var delayMillis = 2000;
             setTimeout(function () {
-                pushToSheet(chunk);
+                pushToSheet(chunk,1,criticalValue,ratioIn);
             }, delayMillis);
 
 
@@ -283,7 +298,7 @@ function lookUpFtable(acrossIn, lengthIn, ratioIn, chunk) {
 
             var delayMillis = 2000;
             setTimeout(function () {
-                pushToSheet(chunk);
+                pushToSheet(chunk,0,criticalValue,ratioIn);
             }, delayMillis);
         }
 
