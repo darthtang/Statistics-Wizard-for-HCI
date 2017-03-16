@@ -13,7 +13,7 @@ $array = explode("***", $toBeMadeIntoArrays);
 $listOfObjects = [];
 for ($i = 1; $i < $input3+1; $i++) {
     
-    ${'object' . $i} = new ChiSquaredObjects($array[$i]);
+    ${'object' . $i} = new anovaObjects($array[$i]);
     ${'object' . $i}->alert(${'object' . $i}->inputIntoClass);
     array_push($listOfObjects,${'object' . $i});
 

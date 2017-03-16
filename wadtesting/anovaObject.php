@@ -2,7 +2,7 @@
 
 
 //new line
-class ChiSquaredObjects {
+class anovaObjects {
     var $mean =0;
     var $sumsOfSquares;
     var $inputIntoClass;
