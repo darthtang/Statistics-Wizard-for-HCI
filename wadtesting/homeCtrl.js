@@ -6,22 +6,54 @@ angular
 
                     checkSphericty();
                 };
-                 $scope.wilcoxon = function () {
+                
+                $scope.wilcoxon = function () {
+                    var lengthOfColumn = document.getElementById("userLastColumnLetters").value;
 
-                    wilcoxonRun();
+                    if (lengthOfColumn === "B" || lengthOfColumn === "b") {
+                        alert('You have said you have 2 columns. The wilcoxon test is being calculated. Please refer back to your Google Sheet')
+                        wilcoxonRun();
+                    } else {
+                        alert('You did not say you have 2 columns. Wilcoxon only allows 2 columns to be conisdered during calculation of wilcoxon')
+                    }
                 };
+                
                 $scope.checkAuth1 = function () {
 
-                    checkAuth1();
+                    var lengthOfColumn = document.getElementById("userLastColumnLetters").value;
+
+                    if (lengthOfColumn !== "B" || lengthOfColumn !== "b"||lengthOfColumn !== "A" || lengthOfColumn !== "a") {
+                        alert('You have said you have more 2 columns. The One Way ANOVA calculation is being performed. Please refer back to your Google Sheet');
+                        checkAuth1();
+                    } else {
+                        alert('You have said you have 2 columns. The One Way ANOVA requires at least more than 2 columns');
+                    }
                 };
+                
                 $scope.pairedTtestRun = function () {
 
-                    pairedTtestRun();
+                    var lengthOfColumn = document.getElementById("userLastColumnLetters").value;
+
+                    if (lengthOfColumn === "B" || lengthOfColumn === "b") {
+                        alert('You have said you have 2 columns. The Paired T-Test calculation is being performed. Please refer back to your Google Sheet');
+                        pairedTtestRun();
+                    } else {
+                        alert('You have said you have 2 columns. T-Tests only allows 2 columns to be conisdered during calculation of T-Tests');
+                    }
+
                 };
                 $scope.repeatedAnovaRun = function () {
 
-                    repeatedAnovaRun();
+                    var lengthOfColumn = document.getElementById("userLastColumnLetters").value;
+
+                    if (lengthOfColumn !== "B" || lengthOfColumn !== "b"||lengthOfColumn !== "A" || lengthOfColumn !== "a") {
+                        alert('You have said you have more 2 columns. The Repeated Measures ANOVA calculation is being performed. Please refer back to your Google Sheet');
+                        repeatedAnovaRun();
+                    } else {
+                        alert('You have said you have 2 columns. The Repeated Measures ANOVA calculation only allows 2 columns to be conisdered during calculation');
+                    }
                 };
+                
                 $scope.calculateNorm = function () {
 
                     var a = document.getElementById("userLastColumnLetters").value;
@@ -42,10 +74,7 @@ angular
                             alert('Sheet ID is empty');
                         }
                     } else {
-                        console.log('youre okay');
-                        console.log(a);
-                        console.log(b);
-                        console.log(c);
+                        alert('Please refer to the Google sheet to find out if you have normally distributed data');
                         document.getElementById("norm").setAttribute("class", "collapse in");
                         document.getElementById("userLastColumnLetters").readOnly = true;
                         document.getElementById("sheetName").readOnly = true;
