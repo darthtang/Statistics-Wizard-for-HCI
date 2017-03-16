@@ -18,7 +18,7 @@ $stringToPass = implode(" ", $merged);
 
 //exec("java -jar NewTest.jar $array1 $array2" , $output);
 
-exec("java -jar NewTest.jar $stringToPass" , $output);
+exec("java -jar wilcoxonCalc.jar $stringToPass" , $output);
 
 //exec('java -jar NewTest.jar testIN' , $output);
 
