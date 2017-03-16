@@ -64,7 +64,7 @@ function handleAuthClick(event) {
  */
 function loadSheetsApi() {
 
-    gapi.client.load(discoveryUrl).then(listMajors123);
+    gapi.client.load(discoveryUrl).then(readSheetsRepAno);
 
 }
 
@@ -72,7 +72,7 @@ function loadSheetsApi() {
  * Print the names and majors of students in a sample spreadsheet:
  * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  */
-function listMajors123() {
+function readSheetsRepAno() {
 
     gapi.client.sheets.spreadsheets.get({
         spreadsheetId: sheetID,
@@ -84,7 +84,7 @@ function listMajors123() {
                 console.log('sucess');
                 numberOfColumns123 = (object.sheets[x].properties.gridProperties.columnCount);
                 console.log(numberOfColumns123);
-                gapi.client.load(discoveryUrl).then(listMajors(numberOfColumns123));
+                gapi.client.load(discoveryUrl).then(repeatedAnovaCreateSheets(numberOfColumns123));
             } else {
                 console.log('nothing yet');
             }
@@ -124,7 +124,7 @@ function pushToSheet(chunkinput, reject, criticalValIN,ratio) {
     });
 }
 
-function listMajors(input) {
+function repeatedAnovaCreateSheets(input) {
 
     var nameOfSheet = (document.getElementById("sheetName").value);
     nameOfSheet += "-Repeated-Measures-ANOVA-Results";
@@ -181,7 +181,7 @@ function listMajors(input) {
                 }
                 if (x === (input - 1)) {
                     console.log(stringToPass);
-                    Anova123(stringToPass, range.values.length, input);
+                    repeatedAnovaJson(stringToPass, range.values.length, input);
                 }
             }
         } else {
@@ -200,7 +200,7 @@ function appendPre(message) {
     pre.appendChild(textContent);
 }
 
-function Anova123(input, length, col) {
+function repeatedAnovaJson(input, length, col) {
 
     $.post('repeatedAnova.php', {in1: input, in2: length, in3: col},
             function (data)
