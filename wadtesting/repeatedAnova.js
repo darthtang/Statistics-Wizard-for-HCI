@@ -1,6 +1,7 @@
 //Your Client ID can be retrieved from your project in the Google
 // Developer Console, https://console.developers.google.com
 var CLIENT_ID = '281296927473-dru253jk83in453051u1t97f0ckdktom.apps.googleusercontent.com';
+//NOTE** the scope is specific. In order to read-write , the scope must be as such or else the application will simply not be able to read or write.
 
 var SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
 
@@ -16,6 +17,10 @@ var rangeInput = "empty range";
 
 var tableRange = "a = 0.10!";
 
+//This is the initial entry point for the file. This function is being calld by GUI->homeCtrl->ThisMethod
+//The method is setting up values in order to read a specific spreadsheet.->sheetID. The method also performs authorisation checks.
+
+
 function repeatedAnovaRun() {
 
     sheetID = (document.getElementById("userInput").value);
@@ -28,30 +33,17 @@ function repeatedAnovaRun() {
             }, handleAuthResult);
 }
 
-/**
- * Handle response from authorization server.
- *
- * @param {Object} authResult Authorization result.
- */
 function handleAuthResult(authResult) {
     var authorizeDiv = document.getElementById('authorize-div');
     if (authResult && !authResult.error) {
-        // Hide auth UI, then load client library.
         authorizeDiv.style.display = 'none';
         loadSheetsApi();
 
     } else {
-        // Show auth UI, allowing the user to initiate authorization by
-        // clicking authorize button.
         authorizeDiv.style.display = 'inline';
     }
 }
 
-/**
- * Initiate auth flow in response to user clicking authorize button.
- *
- * @param {Event} event Button click event.
- */
 function handleAuthClick(event) {
     gapi.auth.authorize(
             {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
@@ -59,19 +51,14 @@ function handleAuthClick(event) {
     return false;
 }
 
-/**
- * Load Sheets API client library.
- */
+//this function starts the intial call to start the process of calculating the repatedANova result
 function loadSheetsApi() {
 
     gapi.client.load(discoveryUrl).then(readSheetsRepAno);
 
 }
-
-/**
- * Print the names and majors of students in a sample spreadsheet:
- * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
- */
+//this function aims to read the sheets to find out how many columns there are 
+//to help perform the calulation
 function readSheetsRepAno() {
 
     gapi.client.sheets.spreadsheets.get({
@@ -92,10 +79,15 @@ function readSheetsRepAno() {
     });
 
 }
+
+//this function aims to push the findings from the repatedAnova calculation onto 
+//the google spreadsheet that we have made
 function pushToSheet(chunkinput, reject, criticalValIN,ratio) {
     console.log('look below me');
     console.log(chunkinput);
     
+    
+    //some basic error checking to decide the significance
         if (reject === 1) {
         var resultOfTest = 'Your F-ratio is GREATER than your critical value. There is a significant difference between the columns';
     } else {
@@ -103,9 +95,10 @@ function pushToSheet(chunkinput, reject, criticalValIN,ratio) {
 
     }
     
+    //here we are setting up the A1 format string so that the system knows where
+    // to print to on the sheet
     var nameOfSheet = (document.getElementById("sheetName").value);
     nameOfSheet += "-Repeated-Measures-ANOVA-Results";
-    
     
     gapi.client.sheets.spreadsheets.values.update({
         spreadsheetId: sheetID,
@@ -124,12 +117,18 @@ function pushToSheet(chunkinput, reject, criticalValIN,ratio) {
     });
 }
 
+//this function aims to create a new google sheet so that we have a 
+//blank sheet to paste our findings
+//this function also reads from the google sheet to construct a string that can be passed to the repeatedanova.php file
+//the string created is a string representation of all the values in the sheet in terms of columns.
 function repeatedAnovaCreateSheets(input) {
+    //this aims to create a name of the new sheet we are about to create. we take the name of the original sheet and append the name of the test we are performing.
 
     var nameOfSheet = (document.getElementById("sheetName").value);
     nameOfSheet += "-Repeated-Measures-ANOVA-Results";
+        //batchupdate is the api call that allows our application to create a new sheet on the sheetID
+    // we can set the properties like row count and tab colour etc. 
     
-    console.log('asdfsdfsdfsdfsdf');
     gapi.client.sheets.spreadsheets.batchUpdate({
         spreadsheetId: sheetID,
         requests: [
@@ -161,15 +160,15 @@ function repeatedAnovaCreateSheets(input) {
     var sheetName = (document.getElementById("sheetName").value);
 
     rangeInput = sheetName + '!A2:' + lastLetters;
-    console.log(input + "old method");
 
 
+    //this following code aims to read in the columns into one string while seperating each string by a '***' delimator
+    
     gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: sheetID,
         range: rangeInput,
     }).then(function (response) {
         var range = response.result;
-        console.log(range.values[1][1] + "mew");
         if (range.values.length > 0) {
             for (x = 0; x < input; x++) {
                 stringToPass = stringToPass + "***";
@@ -181,6 +180,7 @@ function repeatedAnovaCreateSheets(input) {
                 }
                 if (x === (input - 1)) {
                     console.log(stringToPass);
+                    //here we have all the values that we need to perform the calculation 
                     repeatedAnovaJson(stringToPass, range.values.length, input);
                 }
             }
@@ -200,11 +200,19 @@ function appendPre(message) {
     pre.appendChild(textContent);
 }
 
+// this function aims to call the repeatedAnova.php file which will perform the repeatedMeasuresAnova calculation and return significant values
+
 function repeatedAnovaJson(input, length, col) {
+    
+        //this is the request to the php file while passing the param{param}
 
     $.post('repeatedAnova.php', {in1: input, in2: length, in3: col},
             function (data)
             {
+                //this section aims to unpackage the results from the repatedanova.php.
+                //at this point we can consider that most of the hardcore calculation have been performed but we still need to interpret the result
+                //the json payload from the php is unpackaged into a readible format
+                
                 var json = data;
                 obj = JSON.parse(json);
                 obj = JSON && JSON.parse(json) || $.parseJSON(json);
@@ -212,17 +220,20 @@ function repeatedAnovaJson(input, length, col) {
                 var down = (obj.data[1][1]);
                 var ratio = (obj.data[2][1]);
 
+                //given the hardcore calculations have been performed we can now consider to create objects on the spreadsheet to represrent our findings to the user
+                //note we are passing out calculation findings as a parameter to our new function.
+               
+               //the following function aims to look up the critical value
                 gapi.client.load(discoveryUrl).then(lookUpFtable(across, down, ratio, obj));
 
             });
 
 }
 
-function lookUpFtable(acrossIn, lengthIn, ratioIn, chunk) {
 
-    console.log(acrossIn);
-    console.log(lengthIn);
-    console.log(ratioIn);
+//this function aims to look up the critical value we need to see if there is a signigcant difference
+// we do include some bespoke alterations in altering the x,y tables for the table because the table was copies and pasted from a web source and the code must accomodate the layout via ascci-fying number and letters
+function lookUpFtable(acrossIn, lengthIn, ratioIn, chunk) {
 
     if (acrossIn <= 10) {
         acrossIn = acrossIn;
@@ -274,7 +285,13 @@ function lookUpFtable(acrossIn, lengthIn, ratioIn, chunk) {
 
     console.log(tableRange);
 
-
+    
+    //once we have ascii-fied our values, we can now look up the values from the F table.
+    //the sheet ID is hardcoded as we never need to look up a new table. 
+    //there is potential for growth here to accomodate different tables with different different alpha values
+    // note we have included a time delay because by the time we want to push/write our findings onto the google sheet that we have created, the sheet is not actually created yet due to lag
+    // including a time delay seems to iliviate the issue
+    //we also include a basic check to compare critical values from the f table to our findins from the repeatedAnova.php results
     gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: '1Ugb7TtHSuDVyibD70qokK_QLu5nv9pg3daw_J-7eEsU',
         range: tableRange,

@@ -126,7 +126,8 @@ function wilcoxonJSON(input) {
             });
 
 }
-//this function aims to create a new google sheet so that we have a blank sheet to paste our findings
+//this function aims to create a new google sheet so that we have a 
+//blank sheet to paste our findings
 
 function wilcoxoncreateGoogleObjects(obj) {
     
