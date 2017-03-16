@@ -16,7 +16,7 @@ var rangeInput = "empty range";
 
 var tableRange = "a = 0.10!";
 
-function checkAuth1() {
+function oneWayAnovaRun() {
 
     sheetID = (document.getElementById("userInput").value);
     console.log(sheetID);
@@ -25,7 +25,7 @@ function checkAuth1() {
                 'client_id': CLIENT_ID,
                 'scope': SCOPES.join(' '),
                 'immediate': true
-            }, GoogleConnectorhandleAuthResult);
+            }, oneWayAnovahandleAuthResult);
 }
 
 /**
@@ -33,12 +33,12 @@ function checkAuth1() {
  *
  * @param {Object} authResult Authorization result.
  */
-function GoogleConnectorhandleAuthResult(authResult) {
+function oneWayAnovahandleAuthResult(authResult) {
     var authorizeDiv = document.getElementById('authorize-div');
     if (authResult && !authResult.error) {
         // Hide auth UI, then load client library.
         authorizeDiv.style.display = 'none';
-        GoogleConnectorloadSheetsApi();
+        oneWayAnovaloadSheetsApi();
 
     } else {
         // Show auth UI, allowing the user to initiate authorization by
@@ -55,16 +55,16 @@ function GoogleConnectorhandleAuthResult(authResult) {
 function handleAuthClick(event) {
     gapi.auth.authorize(
             {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
-            GoogleConnectorhandleAuthResult);
+            oneWayAnovahandleAuthResult);
     return false;
 }
 
 /**
  * Load Sheets API client library.
  */
-function GoogleConnectorloadSheetsApi() {
+function oneWayAnovaloadSheetsApi() {
 
-    gapi.client.load(discoveryUrl).then(GoogleConnectorlistMajors123);
+    gapi.client.load(discoveryUrl).then(oneWayAnovaRead);
 
 }
 
@@ -72,7 +72,7 @@ function GoogleConnectorloadSheetsApi() {
  * Print the names and majors of students in a sample spreadsheet:
  * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  */
-function GoogleConnectorlistMajors123() {
+function oneWayAnovaRead() {
 
     gapi.client.sheets.spreadsheets.get({
         spreadsheetId: sheetID,
@@ -89,7 +89,7 @@ function GoogleConnectorlistMajors123() {
                 console.log('sucess');
                 numberOfColumns123 = (object.sheets[x].properties.gridProperties.columnCount);
                 console.log(numberOfColumns123);
-                gapi.client.load(discoveryUrl).then(GoogleConnectorlistMajors(numberOfColumns123));
+                gapi.client.load(discoveryUrl).then(oneWayAnovaCreateSheet(numberOfColumns123));
             } else {
                 console.log('nothing yet');
             }
@@ -98,7 +98,7 @@ function GoogleConnectorlistMajors123() {
 
 }
 
-function GoogleConnectorpushToSheet(chunkinput, reject, criticalValIN,ratio) {
+function oneWayAnovapushToSheet(chunkinput, reject, criticalValIN,ratio) {
     console.log('look below me');
     console.log(reject);
     if (reject === 1) {
@@ -129,7 +129,7 @@ function GoogleConnectorpushToSheet(chunkinput, reject, criticalValIN,ratio) {
 }
 
 
-function GoogleConnectorlistMajors(input) {
+function oneWayAnovaCreateSheet(input) {
     
     var nameOfSheet = (document.getElementById("sheetName").value);
     nameOfSheet += "-One-Way-ANOVA-Results";
@@ -183,7 +183,7 @@ function GoogleConnectorlistMajors(input) {
                 }
                 if (x === (input - 1)) {
                     console.log(stringToPass);
-                    GoogleConnectorAnova123(stringToPass, range.values.length, input);
+                    oneWayAnovaJSON(stringToPass, range.values.length, input);
                 }
             }
         } else {
@@ -198,16 +198,16 @@ function GoogleConnectorlistMajors(input) {
 }
 
 
-function GoogleConnectorappendPre(message) {
+function oneWayAnovaappendPre(message) {
     var pre = document.getElementById('output');
     var textContent = document.createTextNode(message + '\n');
     pre.appendChild(textContent);
 }
 
-function GoogleConnectorAnova123(input, length, col) {
+function oneWayAnovaJSON(input, length, col) {
 
 
-    $.post('ChiSquared.php', {in1: input, in2: length, in3: col},
+    $.post('oneWayAnova.php', {in1: input, in2: length, in3: col},
             function (data)
             {
                 var json = data;
@@ -218,13 +218,13 @@ function GoogleConnectorAnova123(input, length, col) {
                 var down = (obj.data[1][1]);
                 var ratio = (obj.data[2][1]);
 
-                gapi.client.load(discoveryUrl).then(GoogleConnectorlookUpFtable(across, down, ratio, obj));
+                gapi.client.load(discoveryUrl).then(oneWayAnovalookUpFtable(across, down, ratio, obj));
 
             });
 
 }
 
-function GoogleConnectorlookUpFtable(acrossIn, lengthIn, ratioIn, chunk) {
+function oneWayAnovalookUpFtable(acrossIn, lengthIn, ratioIn, chunk) {
 
     console.log(acrossIn);
     console.log(lengthIn);
@@ -291,13 +291,13 @@ function GoogleConnectorlookUpFtable(acrossIn, lengthIn, ratioIn, chunk) {
             console.log('there is a sig diff in the data. F = ' + ratioIn);
             var delayMillis = 2000;
             setTimeout(function () {
-                GoogleConnectorpushToSheet(chunk, 1, criticalValue,ratioIn);
+                oneWayAnovapushToSheet(chunk, 1, criticalValue,ratioIn);
             }, delayMillis);
         } else {
             console.log('there is NO sig diff in the data. F = ' + ratioIn);
             var delayMillis = 2000;
             setTimeout(function () {
-                GoogleConnectorpushToSheet(chunk, 0, criticalValue,ratioIn);
+                oneWayAnovapushToSheet(chunk, 0, criticalValue,ratioIn);
             }, delayMillis);
         }
 

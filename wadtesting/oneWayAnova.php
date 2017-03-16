@@ -1,12 +1,10 @@
 <?php
 
-include "ChiSquaredObjects.php";
+include "anovaObject.php";
 
 $input1 = $_POST['in1'];
 $input2 = $_POST['in2'];
 $input3 = $_POST['in3'];
-
-
 
 $toBeMadeIntoArrays = substr($input1, 1);
 

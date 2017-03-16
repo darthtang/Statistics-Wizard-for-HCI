@@ -18,13 +18,13 @@ angular
                     }
                 };
                 
-                $scope.checkAuth1 = function () {
+                $scope.oneWayAnova = function () {
 
                     var lengthOfColumn = document.getElementById("userLastColumnLetters").value;
 
                     if (lengthOfColumn !== "B" || lengthOfColumn !== "b"||lengthOfColumn !== "A" || lengthOfColumn !== "a") {
                         alert('You have said you have more 2 columns. The One Way ANOVA calculation is being performed. Please refer back to your Google Sheet');
-                        checkAuth1();
+                        oneWayAnovaRun();
                     } else {
                         alert('You have said you have 2 columns. The One Way ANOVA requires at least more than 2 columns');
                     }

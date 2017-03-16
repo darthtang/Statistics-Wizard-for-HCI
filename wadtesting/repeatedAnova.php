@@ -1,6 +1,6 @@
 <?php
 
-include "ChiSquaredObjects.php";
+include "anovaObject.php";
 
 $input1 = $_POST['in1'];
 $input2 = $_POST['in2'];
