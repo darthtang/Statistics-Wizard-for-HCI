@@ -63,11 +63,11 @@ function calculateNormhandleAuthClick(event) {
 
 function calculateNormloadSheetsApi() {
 
-    gapi.client.load(discoveryUrl).then(calculateNormlistMajors);
+    gapi.client.load(discoveryUrl).then(calculateNormReadSheet);
 
 }
 
-function calculateNormlistMajors() {
+function calculateNormReadSheet() {
 
 
     var lastLetterLower = (document.getElementById("userLastColumnLetters").value);
@@ -81,7 +81,7 @@ function calculateNormlistMajors() {
         range: rangeInput,
     }).then(function (response) {
         var range = response.result;
-        calculateNormAnova123(range);
+        calculateNormJSON(range);
     });
 }
 
@@ -92,7 +92,7 @@ function calculateNormappendPre(message) {
     pre.appendChild(textContent);
 }
 
-function calculateNormAnova123(input) {
+function calculateNormJSON(input) {
 
     $.post('normalDist.php', {in1: JSON.stringify(input)},
             function (data)
