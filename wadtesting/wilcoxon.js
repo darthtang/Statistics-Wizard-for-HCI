@@ -55,11 +55,11 @@ function wilcoxonhandleAuthClick(event) {
 
 function wilcoxonloadSheetsApi() {
 
-    gapi.client.load(discoveryUrl).then(wilcoxonlistMajors);
+    gapi.client.load(discoveryUrl).then(wilcoxonReadSheet);
 
 }
 
-function wilcoxonlistMajors() {
+function wilcoxonReadSheet() {
 
 
     var lastLetterLower = (document.getElementById("userLastColumnLetters").value);
@@ -77,7 +77,7 @@ function wilcoxonlistMajors() {
         console.log('***********');
         console.log(range);
         console.log('***********');
-        wilcoxonAnova123(range);
+        wilcoxonJSON(range);
     });
 }
 
@@ -88,7 +88,7 @@ function wilcoxonappendPre(message) {
     pre.appendChild(textContent);
 }
 
-function wilcoxonAnova123(input) {
+function wilcoxonJSON(input) {
 
     $.post('wilcoxon.php', {in1: JSON.stringify(input)},
             function (data)
