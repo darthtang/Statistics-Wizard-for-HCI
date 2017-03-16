@@ -60,7 +60,7 @@ function pairedTtesthandleAuthClick(event) {
  */
 function pairedTtestloadSheetsApi() {
 
-    gapi.client.load(discoveryUrl).then(pairedTtestlistMajors);
+    gapi.client.load(discoveryUrl).then(pairedTtestReadSheet);
 
 }
 
@@ -70,7 +70,7 @@ function pairedTtestloadSheetsApi() {
  */
 
 
-function pairedTtestlistMajors() {
+function pairedTtestReadSheet() {
 
 //    var lastLetterLower = (document.getElementById("userLastColumnLetters").value);
 //    var lastLetters = lastLetterLower.toUpperCase();
@@ -87,7 +87,7 @@ function pairedTtestlistMajors() {
     }).then(function (response) {
         var range = response.result;
         console.log(range.values.length);
-        pairedTtestAnova123(range)
+        pairedTtestJSON(range)
     });
 
 
@@ -101,7 +101,7 @@ function pairedTtestappendPre(message) {
     pre.appendChild(textContent);
 }
 
-function pairedTtestAnova123(input) {
+function pairedTtestJSON(input) {
     
     $.post('pairedTtest.php', {in1: JSON.stringify(input)},
             function (data)
