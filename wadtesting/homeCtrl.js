@@ -22,11 +22,11 @@ angular
 
                     var lengthOfColumn = document.getElementById("userLastColumnLetters").value;
 
-                    if (lengthOfColumn !== "B" || lengthOfColumn !== "b"||lengthOfColumn !== "A" || lengthOfColumn !== "a") {
+                    if (lengthOfColumn === "B" || lengthOfColumn === "b"||lengthOfColumn === "A" || lengthOfColumn === "a") {
+                      alert('You have said you have 2 columns. The One Way ANOVA requires at least more than 2 columns');
+                    } else {
                         alert('You have said you have more 2 columns. The One Way ANOVA calculation is being performed. Please refer back to your Google Sheet');
                         oneWayAnovaRun();
-                    } else {
-                        alert('You have said you have 2 columns. The One Way ANOVA requires at least more than 2 columns');
                     }
                 };
                 
@@ -46,11 +46,11 @@ angular
 
                     var lengthOfColumn = document.getElementById("userLastColumnLetters").value;
 
-                    if (lengthOfColumn !== "B" || lengthOfColumn !== "b"||lengthOfColumn !== "A" || lengthOfColumn !== "a") {
+                    if (lengthOfColumn === "B" || lengthOfColumn === "b"||lengthOfColumn === "A" || lengthOfColumn === "a") {
+                        alert('You have said you have 2 columns. The Repeated Measures ANOVA calculation only allows 2 columns to be conisdered during calculation');
+                    } else {
                         alert('You have said you have more 2 columns. The Repeated Measures ANOVA calculation is being performed. Please refer back to your Google Sheet');
                         repeatedAnovaRun();
-                    } else {
-                        alert('You have said you have 2 columns. The Repeated Measures ANOVA calculation only allows 2 columns to be conisdered during calculation');
                     }
                 };
                 

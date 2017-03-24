@@ -7,14 +7,14 @@ BUTTONS tags are angular buttons which point to a specific scope function within
 -->
 
 <div class="container">
-    <h2>Please select input the google sheet information</h2>
+    <h2>Please follow the instructions before carrying on</h2>
     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#input">Click to find out a meaning</button>
     <div id="input" class="collapse">
         <p> **Please remove all empty COLUMNS FROM THE SPREADSHEET</p>
         <p> **Please reserve ROW-1 for Column header names</p>
-        <p> Please enter the spreadsheet ID here<input type="text" id="userInput" value="1o7__VYtZ6bxuNmB-Pmd8QUvhBUfLeBBHtheaTQO6wLM"></p>
-        <p>Please enter the last column letter i.e "A OR AA<input type="text" id="userLastColumnLetters" value="D"></p>
-        <p>Please enter the name of the sheet<input type="text" id="sheetName" value="Sheet12"></p>
+        <p> Please enter the spreadsheet ID here<input type="text" id="userInput" ></p>
+        <p>Please enter the last column letter i.e "A OR AA<input type="text" id="userLastColumnLetters" ></p>
+        <p>Please enter the name of the sheet<input type="text" id="sheetName" ></p>
         <div class="container">
             <h2>Find out if your data is in a normal distribution</h2>
             <button ng-click= "calculateNorm()" class="btn btn-info" data-target="#norm">Click to find out a meaning</button>
@@ -143,13 +143,13 @@ BUTTONS tags are angular buttons which point to a specific scope function within
                         </div>
                         <div class="container">
                             <h2>I have more than 2 Conditions</h2>
-                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#morethan2conditions">Click to find out a meaning</button>
-                            <div id="morethan2conditions" class="collapse">
+                            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#morethan2conditions1">Click to find out a meaning</button>
+                            <div id="morethan2conditions1" class="collapse">
                                 Do you have more than 2 variables in your test data? I.E do you have more than 2 columns in you data set?
                                 <div class="container">
                                     <h2>One Way ANOVA</h2>
-                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#anova">Click to find out a meaning</button>
-                                    <div id="anova" class="collapse">
+                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#anova1">Click to find out a meaning</button>
+                                    <div id="anova1" class="collapse">
                                         <p>
                                             A One Way ANOVA statistical test is the measurement statistical significance 
                                             between 2 or more independent groups(also known as test subjects). The one way anova is very closely related to the repeated measures anova where both the One way anova and the repeated measures anova determine the statistical significance between the difference of means. But where the two statistical tests differ is the difference in test subjects as the One Way Anova does 
@@ -161,8 +161,8 @@ BUTTONS tags are angular buttons which point to a specific scope function within
                                 </div>
                                 <div class="container">
                                     <h2>Repeated Measures ANOVA</h2>
-                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#anova2">Click to find out a meaning</button>
-                                    <div id="anova2" class="collapse">
+                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#anova21">Click to find out a meaning</button>
+                                    <div id="anova21" class="collapse">
                                         <p>
                                             A Repeated measures ANOVA is a measure between 2 or more conditions 
                                             to determine if there is as significant difference when comparing the 

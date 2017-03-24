@@ -133,12 +133,12 @@ function pairedTtestlookUpFtable(tRatioIn,lengthIn) {
         var criticalValue = (range1.values[0][0]);
         if ((tRatioIn <= -Math.abs(criticalValue))||(tRatioIn >= criticalValue)) {
             console.log('We reject the null hypothises as ' );
-            var stringPass1 = 'We REJECT the null hypothises as the T-Ratio is more than the critical value or the T-Ratio is less than the Inverse of the critical value';
+            var stringPass1 = 'We REJECT the null hypothises as the T-Ratio is more than the critical value or the T-Ratio is less than the Inverse of the critical value. In other words there is a significant difference in the data';
             
             gapi.client.load(discoveryUrl).then(PairedTtestcreateGoogleObjects(stringPass1,criticalValue, tRatioIn,-Math.abs(criticalValue)));
 
         } else {
-            var stringPass1 = 'We ACCEPT the null hypothises as the T-Ratio is BETWEEN the critical value AND the Inverse of the critical value';
+            var stringPass1 = 'We ACCEPT the null hypothises as the T-Ratio is BETWEEN the critical value AND the Inverse of the critical value. In other words there is NO significant difference in the data';
             gapi.client.load(discoveryUrl).then(PairedTtestcreateGoogleObjects(stringPass1,criticalValue,tRatioIn,-Math.abs(criticalValue)));
 
         }
