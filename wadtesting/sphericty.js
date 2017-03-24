@@ -101,17 +101,16 @@ function checkSpherictyAnova123(input) {
                 obj = JSON.parse(json);
                 obj = JSON && JSON.parse(json) || $.parseJSON(json);
                 console.log(obj);
-                // var across = (obj.data[0][1]);
+
                 gapi.client.load(discoveryUrl).then(findDeterminant(obj));
             });
 
 }
 
 function findDeterminant(obj) {
-    console.log('asdfsdfsdfsdfsdf');
     var nameOfSheet = (document.getElementById("sheetName").value);
 //    nameOfSheet += "-Anderson-Darling-Normal-Distribution-Test"
-    var tempName = "tempSheetForDeterm"
+    var tempName = "tempSheetForDeterm";
     gapi.client.sheets.spreadsheets.batchUpdate({
         spreadsheetId: sheetID,
         requests: [

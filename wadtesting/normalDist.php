@@ -1,11 +1,11 @@
 <?php
 
+//Calculates the normal distribtion.
+
+//initialsing variables and input
 $input1 = $_POST['in1'];
-
 $object = json_decode($input1, true);
-
 $length = sizeof($object["values"]);
-
 
 $allTheNumbers = [];
 $sigmaArray = [];
@@ -14,7 +14,7 @@ $fxi1 = [];
 $inversed = [];
 $s = [];
 
-
+//pushing all the numbers in an array to be calculated
 for ($x = 0; $x < $length; $x++) {
     for ($i = 0; $i < sizeof($object["values"][$x]); $i++) {
         $current = $object["values"][$x][$i];
@@ -24,20 +24,24 @@ for ($x = 0; $x < $length; $x++) {
     }
 }
 
+//finds the mean
 sort($allTheNumbers);
 $mean = array_sum($allTheNumbers) / sizeof($allTheNumbers);
 
+//calculating for the sigma
 for ($x = 0; $x < sizeof($allTheNumbers); $x++) {
     $current = ($allTheNumbers[$x]) - $mean;
     $sqrd = $current * $current;
     array_push($sigmaArray, $sqrd);
 }
 
+//finds sigma
 $meanSqrd = array_sum($sigmaArray) / (sizeof($sigmaArray)-1);
 $sigma = sqrt($meanSqrd);
 //$testing = log(0.075756140547901);
 //$sigma = 211.6844;
 
+//calculating outputs and finding s
 for ($x = 0; $x < sizeof($allTheNumbers); $x++) {
     $current1 = ($allTheNumbers[$x] - $mean) / $sigma;
     $normdist1 = erf($current1 / (sqrt(2)));
@@ -68,6 +72,7 @@ $num = -1*abs(sizeof($s));
 $AD = $num - ((array_sum($s))/(sizeof($s)));
 $ADstar = $AD*(1+(0.75/sizeof($s)+(2.25/(sizeof($s)*sizeof($s)))));
 
+//decisiion is needed to calculate P.
 if($ADstar >= 0.6){
     $p = exp((1.2937-(5.709*($ADstar)))+(0.0186*($ADstar*$ADstar)));
 }
@@ -81,12 +86,14 @@ if($ADstar < 0.2){
     $p = 1- exp(((-13.436)+(101.14*($ADstar)))-(223.73*($ADstar*$ADstar)));
 }
 
+//decision if normal or not
 if($p>=0.05){
    $isNormal = "The data you have is normal";
 }else{
    $isNormal = "The data you have is NOT normal";
 }
 
+//erf this comes from http://picomath.org/php/erf.php.html
 function erf($x) {
     # constants
     $a1 = 0.254829592;
@@ -110,6 +117,7 @@ function erf($x) {
     return $sign * $y;
 }
 
+//create a return the values in a json object
 $obj = new stdClass();
 $obj->label = "object";
 $obj->data = array(

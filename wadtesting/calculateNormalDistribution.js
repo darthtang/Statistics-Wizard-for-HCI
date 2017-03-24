@@ -1,5 +1,7 @@
 //Your Client ID can be retrieved from your project in the Google
 // Developer Console, https://console.developers.google.com
+
+//setting all of the standard variables
 var CLIENT_ID = '281296927473-dru253jk83in453051u1t97f0ckdktom.apps.googleusercontent.com';
 
 var SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
@@ -16,12 +18,10 @@ var tableRange = "a = 0.10!";
 
 var allTheNumbers = [];
 
+
+//check Google sheets auth
 function calculateNorm() {
 
-//    var a = document.getElementById("userLastColumnLetters").value;
-//    var b = document.getElementById("sheetName").value;
-//    var c = document.getElementById("userInput").value;
-//    
 
         sheetID = (document.getElementById("userInput").value);
         console.log(sheetID);
@@ -37,7 +37,7 @@ function calculateNorm() {
     
 }
 
-
+//handle the auth and display auth button
 function calculateNormhandleAuthResult(authResult) {
     var authorizeDiv = document.getElementById('authorize-div');
     if (authResult && !authResult.error) {
@@ -60,13 +60,14 @@ function calculateNormhandleAuthClick(event) {
     return false;
 }
 
-
+//start to tun the calculations by calling the first method with the discovery URL
 function calculateNormloadSheetsApi() {
 
     gapi.client.load(discoveryUrl).then(calculateNormReadSheet);
 
 }
 
+//reads the spreadsheet and puts tge reutrned object in variable
 function calculateNormReadSheet() {
 
 
@@ -92,6 +93,7 @@ function calculateNormappendPre(message) {
     pre.appendChild(textContent);
 }
 
+//calls using json and ajax to call the php file which will perform the calculation
 function calculateNormJSON(input) {
 
     $.post('normalDist.php', {in1: JSON.stringify(input)},
@@ -109,8 +111,9 @@ function calculateNormJSON(input) {
 
 }
 
+//creates the google sheet that we will the canvas and also writes to that sheet with the results fond
 function createGoogleObjects(obj) {
-    console.log('asdfsdfsdfsdfsdf');
+
     var nameOfSheet = (document.getElementById("sheetName").value);
     nameOfSheet += "-Anderson-Darling-Normal-Distribution-Test"
     gapi.client.sheets.spreadsheets.batchUpdate({

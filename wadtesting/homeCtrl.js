@@ -2,6 +2,10 @@ angular
         .module('app')
         .controller('homeCtrl', ['$scope', function ($scope) {
 
+
+//each scope set is able to check if the last letter is a legal argument for the calculation
+
+
                 $scope.checkSphericty = function () {
 
                     checkSphericty();
@@ -54,6 +58,8 @@ angular
                     }
                 };
                 
+                
+                //This method is special in which it opens up the rest of the wizard tabs only if all of the fields are populared
                 $scope.calculateNorm = function () {
 
                     var a = document.getElementById("userLastColumnLetters").value;

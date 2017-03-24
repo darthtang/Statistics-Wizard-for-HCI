@@ -1,5 +1,7 @@
 //Your Client ID can be retrieved from your project in the Google
 // Developer Console, https://console.developers.google.com
+//
+//setting up variables
 var CLIENT_ID = '281296927473-dru253jk83in453051u1t97f0ckdktom.apps.googleusercontent.com';
 
 var SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
@@ -16,6 +18,7 @@ var rangeInput = "empty range";
 
 var tableRange = "a = 0.10!";
 
+//handle auth
 function oneWayAnovaRun() {
 
     sheetID = (document.getElementById("userInput").value);
@@ -68,10 +71,7 @@ function oneWayAnovaloadSheetsApi() {
 
 }
 
-/**
- * Print the names and majors of students in a sample spreadsheet:
- * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
- */
+//read in the appropriate sheet object  by checking the name/ cjecl the column lengths.
 function oneWayAnovaRead() {
 
     gapi.client.sheets.spreadsheets.get({
@@ -95,9 +95,9 @@ function oneWayAnovaRead() {
             }
         }
     });
-
 }
 
+//checking the signifiance and printing out to a google sheet that was created
 function oneWayAnovapushToSheet(chunkinput, reject, criticalValIN,ratio) {
     console.log('look below me');
     console.log(reject);
@@ -128,12 +128,12 @@ function oneWayAnovapushToSheet(chunkinput, reject, criticalValIN,ratio) {
     });
 }
 
-
+//creating a google sheet so we have a canvas to draw on. 
 function oneWayAnovaCreateSheet(input) {
     
     var nameOfSheet = (document.getElementById("sheetName").value);
     nameOfSheet += "-One-Way-ANOVA-Results";
-    console.log('asdfsdfsdfsdfsdf');
+
     gapi.client.sheets.spreadsheets.batchUpdate({
         spreadsheetId: sheetID,
         requests: [
@@ -166,7 +166,7 @@ function oneWayAnovaCreateSheet(input) {
     rangeInput = sheetName + '!A2:' + lastLetters;
     console.log(input);
 
-
+//reading in data
     gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: sheetID,
         range: rangeInput,
@@ -204,6 +204,7 @@ function oneWayAnovaappendPre(message) {
     pre.appendChild(textContent);
 }
 
+//calls the php file which peroforms the calculation
 function oneWayAnovaJSON(input, length, col) {
 
 
@@ -224,6 +225,7 @@ function oneWayAnovaJSON(input, length, col) {
 
 }
 
+//looking up a pre set f table 
 function oneWayAnovalookUpFtable(acrossIn, lengthIn, ratioIn, chunk) {
 
     console.log(acrossIn);
@@ -281,6 +283,7 @@ function oneWayAnovalookUpFtable(acrossIn, lengthIn, ratioIn, chunk) {
     console.log(tableRange);
 
 
+//reading the f table
     gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: '1Ugb7TtHSuDVyibD70qokK_QLu5nv9pg3daw_J-7eEsU',
         range: tableRange,

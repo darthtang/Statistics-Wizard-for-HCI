@@ -1,5 +1,7 @@
 //Your Client ID can be retrieved from your project in the Google
 // Developer Console, https://console.developers.google.com
+
+//setting up variables
 var CLIENT_ID = '281296927473-dru253jk83in453051u1t97f0ckdktom.apps.googleusercontent.com';
 
 var SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
@@ -16,6 +18,8 @@ var rangeInput = "empty range";
 
 var tableRange1 = "Sheet1!";
 
+
+//handles the auth
 function pairedTtestRun() {
 
     sheetID = (document.getElementById("userInput").value);
@@ -28,7 +32,7 @@ function pairedTtestRun() {
             }, pairedTtesthandleAuthResult);
 }
 
-
+//shows auth if needed
 function pairedTtesthandleAuthResult(authResult) {
     var authorizeDiv = document.getElementById('authorize-div');
     if (authResult && !authResult.error) {
@@ -64,22 +68,15 @@ function pairedTtestloadSheetsApi() {
 
 }
 
-/**
- * Print the names and majors of students in a sample spreadsheet:
- * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
- */
 
 
+// start to read the sheet for data
 function pairedTtestReadSheet() {
 
-//    var lastLetterLower = (document.getElementById("userLastColumnLetters").value);
-//    var lastLetters = lastLetterLower.toUpperCase();
-    var sheetName = (document.getElementById("sheetName").value);
-//
-    rangeInput = sheetName + '!A2:B';
-//    console.log(input);
-//    console.log(rangeInput);
 
+    var sheetName = (document.getElementById("sheetName").value);
+
+    rangeInput = sheetName + '!A2:B';
 
     gapi.client.sheets.spreadsheets.values.get({
         spreadsheetId: sheetID,
@@ -101,6 +98,7 @@ function pairedTtestappendPre(message) {
     pre.appendChild(textContent);
 }
 
+//cal the php file which calculated the output
 function pairedTtestJSON(input) {
     
     $.post('pairedTtest.php', {in1: JSON.stringify(input)},
@@ -121,6 +119,7 @@ function pairedTtestJSON(input) {
             });
 }
 
+//look up f table to check if we reject or accept null hypothesis
 function pairedTtestlookUpFtable(tRatioIn,lengthIn) {
 
     tableRange1 = tableRange1 + "B" + (lengthIn + 1);
@@ -146,8 +145,8 @@ function pairedTtestlookUpFtable(tRatioIn,lengthIn) {
     });
 }
 
+//create google sheet blank canvas
 function PairedTtestcreateGoogleObjects(answer,critval,TRI,inv) {
-    console.log('asdfsdfsdfsdfsdf');
     var nameOfSheet = (document.getElementById("sheetName").value);
     nameOfSheet += "-T-Test-output"
     gapi.client.sheets.spreadsheets.batchUpdate({
@@ -178,6 +177,7 @@ function PairedTtestcreateGoogleObjects(answer,critval,TRI,inv) {
     var delayMillis = 2000;
     setTimeout(function () {
 
+//Add finidings to the google sheet
         console.log('look below me');
         gapi.client.sheets.spreadsheets.values.update({
             spreadsheetId: sheetID,
